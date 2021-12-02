@@ -1,0 +1,4 @@
+Замена строки в тестовом файле
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+gggggggggggggggggggggggggggggggggggggggggg
+
