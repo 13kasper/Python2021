@@ -5835,7 +5835,7 @@ import os
 
 # =========================================================== 02.12.21 ===== OS.PATH
 
-import os.path
+# import os.path
 
 # print(os.path.split(r'D:\rr\rrr\rrrr\r5\text_r5.txt'))
 # # разбивает путь на кортеж который состоит из двух состовляющих (head, tail) голова и хвост =====
@@ -5954,8 +5954,49 @@ import time  # ============================================================= Д�
 # git checkout readme ( перейти на другую ветку, readme- название ветки )
 # git checkout -b readme ( создание ветки и переход на нее )
 # readme.md ( документ для описания проектов )
+# git merge readme (объединяет ветки )
 
 
+# DZ-07.12.21
+# DZ-1
+import os.path
 
+# dir_name = r'test_dir/f1'
+# file = '4.txt'
+# search = os.listdir(dir_name)
+# for i in search:
+#     mp = os.path.join(dir_name, i)
+# if file in search:
+#     print(f"{file} ({dir_name}) - last access time  {os.path.getatime(mp)} sec")
+# else:
+#     print('Тут рыбы нет')
+
+
+# DZ-2
+# dir_name = 'files'
+# file = []
+# dirs = []
+# search = os.listdir(dir_name)
+# for i in search:
+#     mp = os.path.join(dir_name, i)
+#     if os.path.isfile(mp):
+#         file.append(dir_name + '//' + i)
+#     elif os.path.isdir(mp):
+#         dirs.append(dir_name + '//' + i)
+#
+# out = file + dirs
+# print(out)
+
+
+# DZ-3
+# os.makedirs('Work\empty_files')
+# for root, dirs, files in os.walk('Work'):
+#     for i in files:
+#         mp = os.path.join(root, i)
+#         if os.path.getsize(mp) > 0:
+#             print(f'{root}\\{i} {os.path.getsize(mp)}')
+#         else:
+#             gen = os.path.basename(i)
+#             os.replace(mp, f"Work/empty_files/{gen}")
 
 
