@@ -170,26 +170,438 @@
 
 # ## ===================================== ***********************************
 
-class Person:
-    skill = 10  # Квалификация сотрудника
+# class Person:
+#     skill = 10  # Квалификация сотрудника
+#
+#     def print_info(self, name, surname):
+#         self.name = name
+#         self.surname = surname
+#         print(f"Данные сотрудника: {self.name} {self.surname}")
+#
+#     def add_skill(self, k):
+#         self.skill += k
+#         print(f"Квалификация сотрудника: {self.name} {self.skill}")
+#
+#
+#
+# person1 = Person()
+# person1.print_info("Виктор", "Резник")
+# person1.add_skill(3)
+# print()
+# person2 = Person()
+# person2.print_info("Анна", "Каренина")
 
-    def print_info(self, name, surname):
-        self.name = name
-        self.surname = surname
-        print(f"Данные сотрудника: {self.name} {self.surname}")
 
-    def add_skill(self, k):
-        self.skill += k
-        print(f"Квалификация сотрудника: {self.name} {self.skill}")
+# ==================================================================  14.12.21 ===================
+
+# __магический метод__
+
+# Специальные методы
+# Конструктор __new__  # отвечает за выделение памяти
+# Инициализатор __init__  #
+# Деструктор __del__  #  разрывает связь
+
+# class Point:
+#
+#     def __new__(cls, *args, **kwargs):
+#         print("Конструктор")
+#         return super().__new__(cls)
+#
+#     def __init__(self):
+#         print("Инициализатор")
+#
+#     def set_coords(self, x, y):
+#         self.x = x
+#         self.y = y
+#
+#
+# p1 = Point()
+
+# ====
+
+# class Point:
+#
+#     def __new__(cls, *args, **kwargs):
+#         print("Конструктор")
+#         return super().__new__(cls)
+#
+#     def __init__(self, x=0, y=0):
+#         print("Инициализатор")
+#         self.x = x
+#         self.y = y
+#
+#     # def set_coords(self, x, y):
+#     #     self.x = x
+#     #     self.y = y
+#
+#
+# p1 = Point(5, 10)
+# print(p1.__dict__)
+# p2 = Point()
+# print(p2.__dict__)
+# p2 = Point(y=2)
+# print(p2.__dict__)
+
+# ===
+
+
+# class Point:
+#
+#     def __init__(self, x=0, y=0):
+#         print("Инициализатор")
+#         self.x = x
+#         self.y = y
+#
+#
+# p1 = Point(5, 10)
+# print(p1.__dict__)
+# Point.__init__(p1, 20)
+# print(p1.__dict__)
+
+# === ====================================
+
+# class Point:
+#
+#     def __init__(self, x=0, y=0):
+#         print("Инициализатор")
+#         self.x = x
+#         self.y = y
+#
+#     def __del__(self):  # деструктор отрабатывает последним когда все выполнилось
+#         print("удаление экземпляра: " + self.__class__.__name__)
+#
+#
+# p1 = Point(5, 10)
+# print(p1.__dict__)
+# del p1  # принудительно разоравать связь с экземпляром
+# # p1 = 0  # так же прерывает связь
+# print(p1.x)
+
+# ============================= СТАТИЧЕСКИЕ ПЕРЕМЕННЫЕ
+
+# class Point:
+#     count = 0
+#
+#     def __init__(self, x, y):
+#         self.x = x
+#         self.y = y
+#         Point.count += 1  # к статической переменной обращаемся через имя КЛАССА ( не экземпляра self )************
+#
+#
+# p1 = Point(5, 10)
+# print(p1.__dict__)
+# p2 = Point(2, 3)
+# print(p2.__dict__)
+# p3 = Point(2, 3)
+# p4 = Point(2, 3)
+# print(Point.count)
+# print(p3.count)
+
+
+# ========================== ПЕРЕЗАПИСАТЬ КООРДИНАТЫ ============
+
+# class Point:
+#     count = 0
+#
+#     def __init__(self, x, y):
+#         self.x = x
+#         self.y = y
+#         Point.count += 1
+#
+#     def check_value(z):  # статическая функция для проверки на Int и float
+#         if isinstance(z, int) or isinstance(z, float):
+#             return True
+#         return False
+#
+#     def set_coords(self, x, y):  # перезаписываем данные переменных
+#         if Point.check_value(x) and Point.check_value(y):  # вызываем через имя класса функцию проверки и если верно то: перезаписываем
+#             self.x = x
+#             self.y = y
+#         else:
+#             print("координаты должны быть числами")
+#
+#     def get_coords(self):  # получить данные
+#         return self.x, self.y
+#
+#
+# p1 = Point(5, 10)
+# p1.set_coords(2.3, 3)
+# print(p1.get_coords())
+# print(p1.__dict__)
+
+
+# =========================================================== ЗАДАЧА С РОБОТАМИ =======================**********
+
+# class Robot:
+#     k = 0
+#
+#     def __init__(self, name):
+#         self.name = name
+#         print("Инициализация робота: ", self.name)
+#         Robot.k += 1
+#
+#     def __del__(self):
+#         print(self.name, "выключается!")
+#         Robot.k -= 1
+#
+#         if Robot.k ==0:
+#             print(self.name, "Был последний")
+#         else:
+#             print("Работающих роботов осталось :", Robot.k)
+#
+#     def say_hi(self):
+#         print("Приветствую! Меня зовут: ", self.name)
+#
+#
+# droid1 = Robot("R2-D2")
+# droid1.say_hi()
+# print("Числинность роботов: ", Robot.k)
+# droid2 = Robot("C-3PO")
+# droid2.say_hi()
+# print("Числинность роботов: ", Robot.k)
+# droid3 = Robot("U-501")
+# droid4 = Robot("BOOOOM")
+# print("\nЗдесь роботы могут проделать какую то работу")
+# print("Роботы закончили свою работу. Давайте их выключим!")
+# del droid1
+# del droid2
+# del droid3
+# del droid4
+# print("Численность роботов :", Robot.k)
+
+# =====================================================================================
+# ************************************************************************************************************
+# ====================================================== ИНКАПСУЛЯЦИЯ =========================================
+
+# class Point:
+#
+#     def __init__(self, x, y):
+#         self.__x = x
+#         self.__y = y
+#
+#     def check_value(z):  # статическая функция для проверки на Int и float
+#         if isinstance(z, int) or isinstance(z, float):
+#             return True
+#         return False
+#
+#     def set_coords(self, x, y):
+#         if Point.check_value(x) and Point.check_value(y):
+#             self.__x = x
+#             self.__y = y
+#         else:
+#             print("координаты должны быть числами")
+#
+#     def set_coords_x(self, x):
+#         if Point.check_value(x):
+#             self.__x = x
+#         else:
+#             print("координаты должны быть числами")
+#
+#     def set_coords_y(self, y):
+#         if Point.check_value(y):
+#             self.__y = y
+#         else:
+#             print("координаты должны быть числами")
+#
+#     def get_coords(self):  # получить данные
+#         return self.__x, self.__y
+#
+#     def get_coords_x(self):
+#         return self.__x
+#
+#     def get_coords_y(self):
+#         return self.__y
+#
+#
+# p1 = Point(5, 10)
+# print(p1.get_coords())
+# p1.set_coords(20, 74)
+# print(p1.get_coords())
+# p1.set_coords_x(121)
+# p1.set_coords_y(0.22)
+#
+# print(p1.get_coords())
+# print(p1.get_coords_x())
+# print(p1.get_coords_y())
+#
+# print(p1.__dict__)  # просмотреть содержимое
+# print(p1._Point__x)  # чтение приватной переменой
+# p1._Point__x = 0.75
+# print(p1.__dict__)
+# # print(p1.__x, p1.__y)
+# # p1.__x = 100
+# # p1.__y = "abc"
+# # print(p1.__x, p1.__y)
+#
+# # Инкапсуляция
+# # x - public
+# # _x - protected  = используются для наследования ( изменить можно но не нужно )
+# # __x - private  = закрытый режим доступа
+
+# ========================================================== ЗАДАЧА ПРЯМОУГОЛЬНИК ============================
+# import math
+#
+#
+# class Rectangle:
+#     def __init__(self, length=1, width=1):
+#         self.__length = length
+#         self.__width = width
+#
+#     def set_length(self, length):
+#         self.__length = length
+#
+#     def set_width(self, width):
+#         self.__width = width
+#
+#     def get_length(self):
+#         return self.__length
+#
+#     def get_width(self):
+#         return self.__width
+#
+#     def square(self):
+#         return self.__length * self.__width
+#
+#     def perimetr(self):
+#         return (self.__length * self.__width) * 2
+#
+#     def hypo(self):
+#         return math.sqrt(self.__length ** 2 + self.__width ** 2)
+#
+#     def get_draw(self):
+#         # for i in range(self.__length):
+#         #     print(self.__width * "*")
+#         print((self.__width * "*" + "\n") * self.__length)
+#
+#
+# rec1 = Rectangle()
+# rec1.set_length(3)
+# rec1.set_width(9)
+# print("Длина прямоугольника", rec1.get_length())
+# print("Ширина прямоугольника", rec1.get_width())
+# print("Площадь", rec1.square())
+# print("Периметр", rec1.perimetr())
+# print("Гипотенуза", round(rec1.hypo(), 2))
+# rec1.get_draw()
+
+# =========================================================== МЕТОДЫ ===================
+
+# class Point:
+#     def __init__(self, x, y):
+#         self.__x = x
+#         self.__y = y
+#
+#     # def __getattr__(self, name):  # передаем данные ЕСЛИ ПЕРЕМЕННОЙ НЕ СУЩЕСТВУЕТ,  __getattr__
+#     #     return f"В классе {__class__.__name__} отсутствует атрибут: {name}"
+#
+#     def __getattribute__(self, item):  # ПОЛНОЕ ЗАКРЫТИЕ ДОСТУПА ПЕРЕМЕНОЙ МЕТОДОМ __getattribute__
+#         if item == "_Point__x":  # ПО УСЛОВИЮ ПРЯМОГО ДОСТУПА К НЕЙ _Point__x
+#             return "Закрытая переменная"
+#         else:
+#             return object.__getattribute__(self, item)
+#
+#     def check_val(z):
+#         if isinstance(z, int) or isinstance(z, float):
+#             return True
+#         return False
+#
+#     def set_coords(self, x, y):
+#         if Point.check_val(x) and Point.check_val(y):
+#             self.__x = x
+#             self.__y = y
+#         else:
+#             print("Координаты должны быть числами")
+#
+#     def set_coords_x(self, x):
+#         if Point.check_val(x):
+#             self.__x = x
+#         else:
+#             print("Координаты должны быть числами")
+#
+#     def set_coords_y(self, y):
+#         if Point.check_val(y):
+#             self.__y = y
+#         else:
+#             print("Координаты должны быть числами")
+#
+#     def get_coords(self):
+#         return self.__x, self.__y
+#
+#     def get_coords_x(self):
+#         return self.__x
+#
+#     def get_coords_y(self):
+#         return self.__y
+#
+#     def area(self):
+#         return self.__x * self.__y
+#
+#
+# p1 = Point(5, 10)
+# # print(p1.__x)
+# print(p1._Point__x)  # проверяеМ __getattribute__
+# # print(p1.zzz)  # передаем несуществующие данные, проверяем __getattr__
+# print(p1.get_coords())
+# print(p1.area())
+
+# ============================================
+
+
+class Point:
+    WIDTH = 5
+
+    def __init__(self, x, y):
+        self.__x = x
+        self.__y = y
+
+    def __setattr__(self, key, value):
+        if key == "WIDTH":
+            raise AttributeError
+        else:
+
+
+    def check_val(z):
+        if isinstance(z, int) or isinstance(z, float):
+            return True
+        return False
+
+    def set_coords(self, x, y):
+        if Point.check_val(x) and Point.check_val(y):
+            self.__x = x
+            self.__y = y
+        else:
+            print("Координаты должны быть числами")
+
+    def set_coords_x(self, x):
+        if Point.check_val(x):
+            self.__x = x
+        else:
+            print("Координаты должны быть числами")
+
+    def set_coords_y(self, y):
+        if Point.check_val(y):
+            self.__y = y
+        else:
+            print("Координаты должны быть числами")
+
+    def get_coords(self):
+        return self.__x, self.__y
+
+    def get_coords_x(self):
+        return self.__x
+
+    def get_coords_y(self):
+        return self.__y
+
+    def area(self):
+        return (self.__x * self.__y) + Point.WIDTH
 
 
 
-person1 = Person()
-person1.print_info("Виктор", "Резник")
-person1.add_skill(3)
-print()
-person2 = Person()
-person2.print_info("Анна", "Каренина")
+p1 = Point(5, 10)
+p1.WiDTH = 10
+print(p1.area())
+
 
 
 
