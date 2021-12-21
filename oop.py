@@ -953,42 +953,177 @@
 
 # DZ ==== 20.12.21
 
-class Temp:
-    count = 0
-
-    def cheeck_value(z):
-        if isinstance(z, int) or isinstance(z, float):
-            return True
-        return False
-
-    @staticmethod
-    def far_in_cel(x):
-        if Temp.cheeck_value(x):
-            Temp.count += 1
-            return (x - 32) * 5 / 9
-        else:
-            raise ValueError("Неверный формат данных")
-
-    @staticmethod
-    def cel_in_far(x):
-        if Temp.cheeck_value(x):
-            Temp.count += 1
-            return (x * 9/5) + 32
-        else:
-            raise ValueError("Неверный формат данных")
-
-    @staticmethod
-    def col_zap():
-        return Temp.count
-
-
-t1 = Temp
-print(t1.far_in_cel(68))
-print(t1.cel_in_far(0))
-print(t1.col_zap())
-
-
+# class Temp:
+#     count = 0
+#
+#     def cheeck_value(z):
+#         if isinstance(z, int) or isinstance(z, float):
+#             return True
+#         return False
+#
+#     @staticmethod
+#     def far_in_cel(x):
+#         if Temp.cheeck_value(x):
+#             Temp.count += 1
+#             return (x - 32) * 5 / 9
+#         else:
+#             raise ValueError("Неверный формат данных")
+#
+#     @staticmethod
+#     def cel_in_far(x):
+#         if Temp.cheeck_value(x):
+#             Temp.count += 1
+#             return (x * 9/5) + 32
+#         else:
+#             raise ValueError("Неверный формат данных")
+#
+#     @staticmethod
+#     def col_zap():
+#         return Temp.count
+#
+#
+# t1 = Temp
+# print(t1.far_in_cel(68))
+# print(t1.cel_in_far(0))
+# print(t1.col_zap())
 
 
+# ============================================================= 21.12.21 ================================
+
+# ========================================================
+
+# class Account:
+#     rate_usd = 0.013
+#     rate_euro = 0.011
+#     suffix = "RUB"
+#     suffix_usd = "USD"
+#     suffix_eur = "EUR"
+#
+#     def __init__(self, surname, num, percent, value=0):
+#         self.surname = surname  # фамилия владельца
+#         self.num = num  # номер счета
+#         self.percent = percent  # процент начисления
+#         self.value = value  # сумма в рублях
+#         print(f'Счет #{self.num} принадлежащий {self.surname} был открыт')
+#         print('*' * 50)
+#
+#     def __del__(self):
+#         print('*' * 50)
+#         print(f'Счет #{self.num} принадлежащий {self.surname} был закрыт')
+#
+#     def edit_owner(self, surname):
+#         """Меняем владельца"""
+#         self.surname = surname
+#
+#     @classmethod
+#     def set_usd_rate(cls, rate):
+#         """Редактирование курса рубля по отношению к доллару"""
+#         cls.rate_usd = rate
+#
+#     @classmethod
+#     def set_eur_rate(cls, rate):
+#         """Редактирование курса рубля по отношению к евро"""
+#         cls.rate_euro = rate
+#
+#     @staticmethod
+#     def convert(value, rate):
+#         """Конвертация"""
+#         return value * rate
+#
+#     def convert_to_usd(self):
+#         """Перевод в доллары"""
+#         usd_val = Account.convert(self.value, Account.rate_usd)  # статический метод вызывается через имя класса
+#         print(f'Состояние счета: {usd_val} {Account.suffix_usd}')
+#
+#     def convert_to_eur(self):
+#         """Перевод в доллары"""
+#         eur_val = Account.convert(self.value, Account.rate_euro)  # статический метод вызывается через имя класса
+#         print(f'Состояние счета: {eur_val} {Account.suffix_eur}')
+#
+#     def add_persents(self):
+#         """начисление процентов"""
+#         self.value += self.value * self.percent
+#         print("проценты были успешно начислены!!!")
+#         self.print_balance()
+#
+#     def withdraw_money(self, val):  # принимает переменную - сумма которую хотим снять
+#         """Снимаем баланс"""
+#         if val > self.value:
+#             print(f"К сожалению у вас нет {val} {Account.suffix}")
+#         else:
+#             self.value -= val
+#             print(f"{val} {Account.suffix} было успешно снято")
+#         self.print_balance()
+#
+#     def add_money(self, val):
+#         """Добавляем баланс"""
+#         self.value += val
+#         print(f"{val} {Account.suffix} было успешно добавлено")
+#         self.print_balance()
+#
+#     def print_balance(self):
+#         print(f"Текущий баланс {self.value} {Account.suffix}")
+#
+#     def print_info(self):
+#         """вывод информации о счете"""
+#         print("Информация о счете")
+#         print("-" * 20)
+#         print(f"#{self.num}\nВладелец: {self.surname}")
+#         self.print_balance()
+#         print(f"Проценты: {self.percent:.0%}")  # .0%  Указываем как отображать %
+#         print("-" * 20)
+#
+#
+# acc = Account('Долгих', 12345, 0.03, 1000)
+# acc.print_info()
+# acc.convert_to_usd()
+# acc.convert_to_eur()
+#
+# Account.set_usd_rate(2)
+# Account.set_eur_rate(3)
+# print()
+#
+# acc.convert_to_usd()
+# acc.convert_to_eur()
+# print()
+#
+# acc.edit_owner("Дюма")
+# acc.print_info()
+# print()
+#
+# acc.add_persents()
+# print()
+# acc.withdraw_money(700)
+# print()
+#
+# acc.add_money(5000)
+
+# =========================================================== НАСЛЕДОВАНИЕ =============
+# БАЗОВЫЙ КЛАСС (родительский)
+# ДОЧЕРНИЙ КЛАСС
+# DRY
+
+class Point:
+
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        """Преобразовать в строку"""
+        return f"{self.x}, {self.y}"
 
 
+class Line:
+    def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
+        self.sp = sp
+        self.ep = ep
+        self.color = color
+        self.width = width
+
+    def draw_line(self):
+        print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.width}")
+
+
+line = Line(Point(1, 2), Point(10, 20))  # экземпляр класса с данными
+line.draw_line()
