@@ -1148,6 +1148,58 @@
 # Наследование
 # Выносим иницилизатор в отдельный класс
 
+# class Point:
+#
+#     def __init__(self, x=0, y=0):
+#         self.x = x
+#         self.y = y
+#
+#     # print(issubclass(Point, object))  # проверяем родительский класс - object = TRUE
+#
+#     def __str__(self):
+#         """Преобразовать в строку"""
+#         return f"{self.x}, {self.y}"
+#
+#
+# class Prop:  # выносим иницилизатор в отдельный класс
+#     def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
+#         """sp и  ep принимают экземпляры класса Point по две координаты"""
+#         print("Инициализатор базового класса Prop")
+#         self.sp = sp
+#         self.ep = ep
+#         self.color = color
+#         self.width = width
+#
+#
+# class Line(Prop):  # наследуем класс
+#     """дочерний класс"""
+#     def __init__(self, *args):
+#         print("Переопределенный инициализатор Line")  # Первым отрабатывает инициализатор дочернего класса
+#         # Prop.__init__(self, *args)  # при переопределении обращаемся к род классу и передаем аргументы
+#         super().__init__(*args)  # можно (чаще используется ) обращаться через super(), self указывать не нужно.
+#
+#     def draw_line(self):
+#         print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.width}")
+#
+#
+# class Rect(Prop):  # наследуем класс
+#     """дочерний класс"""
+#     def draw_rect(self):
+#         print(f"Рисование прямоугольник: {self.sp}, {self.ep}, {self.color}, {self.width}")
+#
+#
+# line = Line(Point(1, 2), Point(10, 20))  # Point экземпляры класса с данными
+# line.width = 10
+# print(line.width)
+# line.draw_line()
+# rect = Rect(Point(30, 40), Point(70, 80))
+# rect.draw_rect()
+# print(rect.width)
+#
+# print(line.__dict__)
+
+# С ЗАКРЫТЫМИ ПЕРЕМЕННЫМИ
+
 class Point:
 
     def __init__(self, x=0, y=0):
@@ -1164,27 +1216,36 @@ class Point:
 class Prop:  # выносим иницилизатор в отдельный класс
     def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
         """sp и  ep принимают экземпляры класса Point по две координаты"""
+        print("Инициализатор базового класса Prop")
         self.sp = sp
         self.ep = ep
         self.color = color
-        self.width = width
+        self.__width = width
+
+    def get_width(self):
+        return self.__width
 
 
 class Line(Prop):  # наследуем класс
     """дочерний класс"""
+    def __init__(self, *args):
+        print("Переопределенный инициализатор Line")  # Первым отрабатывает инициализатор дочернего класса
+        # Prop.__init__(self, *args)  # при переопределении обращаемся к род классу и передаем аргументы
+        super().__init__(*args)  # можно (чаще используется ) обращаться через super(), self указывать не нужно.
+        self.__width = 5
+
     def draw_line(self):
-        print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.width}")
+        print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.get_width()}")
 
 
 class Rect(Prop):  # наследуем класс
     """дочерний класс"""
     def draw_rect(self):
-        print(f"Рисование прямоугольник: {self.sp}, {self.ep}, {self.color}, {self.width}")
+        print(f"Рисование прямоугольник: {self.sp}, {self.ep}, {self.color}, {self.__width}")
 
 
-line = Line(Point(1, 2), Point(10, 20))  # Point экземпляры класса с данными
+line = Line(Point(1, 2), Point(10, 20))
 line.draw_line()
-rect = Rect(Point(30, 40), Point(70, 80))
-rect.draw_rect()
+print(line.__dict__)
 
 
