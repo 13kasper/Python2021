@@ -1101,7 +1101,52 @@
 # =========================================================== НАСЛЕДОВАНИЕ =============
 # БАЗОВЫЙ КЛАСС (родительский)
 # ДОЧЕРНИЙ КЛАСС
-# DRY
+# DRY (Dont Repeat Youself) - не повторяйся
+
+# class Point:
+#
+#     def __init__(self, x=0, y=0):
+#         self.x = x
+#         self.y = y
+#
+# # print(issubclass(Point, object))  # проверяем родительский класс - object = TRUE
+#
+#     def __str__(self):
+#         """Преобразовать в строку"""
+#         return f"{self.x}, {self.y}"
+#
+#
+# class Line:
+#     def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
+#         """sp и  ep принимают экземпляры класса Point по две координаты"""
+#         self.sp = sp
+#         self.ep = ep
+#         self.color = color
+#         self.width = width
+#
+#     def draw_line(self):
+#         print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.width}")
+#
+#
+# class Rect:
+#     def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
+#         """sp и  ep принимают экземпляры класса Point по две координаты"""
+#         self.sp = sp
+#         self.ep = ep
+#         self.color = color
+#         self.width = width
+#
+#     def draw_rect(self):
+#         print(f"Рисование прямоугольник: {self.sp}, {self.ep}, {self.color}, {self.width}")
+#
+#
+# line = Line(Point(1, 2), Point(10, 20))  # Point экземпляры класса с данными
+# line.draw_line()
+# rect = Rect(Point(30, 40), Point(70, 80))
+# rect.draw_rect()
+
+# Наследование
+# Выносим иницилизатор в отдельный класс
 
 class Point:
 
@@ -1109,21 +1154,37 @@ class Point:
         self.x = x
         self.y = y
 
+    # print(issubclass(Point, object))  # проверяем родительский класс - object = TRUE
+
     def __str__(self):
         """Преобразовать в строку"""
         return f"{self.x}, {self.y}"
 
 
-class Line:
+class Prop:  # выносим иницилизатор в отдельный класс
     def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
+        """sp и  ep принимают экземпляры класса Point по две координаты"""
         self.sp = sp
         self.ep = ep
         self.color = color
         self.width = width
 
+
+class Line(Prop):  # наследуем класс
+    """дочерний класс"""
     def draw_line(self):
         print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.width}")
 
 
-line = Line(Point(1, 2), Point(10, 20))  # экземпляр класса с данными
+class Rect(Prop):  # наследуем класс
+    """дочерний класс"""
+    def draw_rect(self):
+        print(f"Рисование прямоугольник: {self.sp}, {self.ep}, {self.color}, {self.width}")
+
+
+line = Line(Point(1, 2), Point(10, 20))  # Point экземпляры класса с данными
 line.draw_line()
+rect = Rect(Point(30, 40), Point(70, 80))
+rect.draw_rect()
+
+
