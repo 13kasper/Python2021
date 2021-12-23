@@ -1103,6 +1103,10 @@
 # ДОЧЕРНИЙ КЛАСС
 # DRY (Dont Repeat Youself) - не повторяйся
 
+# public = self.name (открытые переменные )
+# protected = self._name (наследование)
+# private = self.__name (закрытые переменные )
+
 # class Point:
 #
 #     def __init__(self, x=0, y=0):
@@ -1200,52 +1204,255 @@
 
 # С ЗАКРЫТЫМИ ПЕРЕМЕННЫМИ
 
-class Point:
+# class Point:
+#
+#     def __init__(self, x=0, y=0):
+#         self.x = x
+#         self.y = y
+#
+#     # print(issubclass(Point, object))  # проверяем родительский класс - object = TRUE
+#
+#     def __str__(self):
+#         """Преобразовать в строку"""
+#         return f"{self.x}, {self.y}"
+#
+#
+# class Prop:  # выносим иницилизатор в отдельный класс
+#     def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
+#         """sp и  ep принимают экземпляры класса Point по две координаты"""
+#         print("Инициализатор базового класса Prop")
+#         self.sp = sp
+#         self.ep = ep
+#         self.color = color
+#         self.__width = width
+#
+#     def get_width(self):
+#         return self.__width
+#
+#
+# class Line(Prop):  # наследуем класс
+#     """дочерний класс"""
+#     def __init__(self, *args):
+#         print("Переопределенный инициализатор Line")  # Первым отрабатывает инициализатор дочернего класса
+#         # Prop.__init__(self, *args)  # при переопределении обращаемся к род классу и передаем аргументы
+#         super().__init__(*args)  # можно (чаще используется ) обращаться через super(), self указывать не нужно.
+#         self.__width = 5
+#
+#     def draw_line(self):
+#         print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.get_width()}")
+#
+#
+# class Rect(Prop):  # наследуем класс
+#     """дочерний класс"""
+#     def draw_rect(self):
+#         print(f"Рисование прямоугольник: {self.sp}, {self.ep}, {self.color}, {self.__width}")
+#
+#
+# line = Line(Point(1, 2), Point(10, 20))
+# line.draw_line()
+# print(line.__dict__)
 
-    def __init__(self, x=0, y=0):
-        self.x = x
-        self.y = y
 
-    # print(issubclass(Point, object))  # проверяем родительский класс - object = TRUE
-
-    def __str__(self):
-        """Преобразовать в строку"""
-        return f"{self.x}, {self.y}"
+# =================================================================== 23.12.21 ===================
 
 
-class Prop:  # выносим иницилизатор в отдельный класс
-    def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
-        """sp и  ep принимают экземпляры класса Point по две координаты"""
-        print("Инициализатор базового класса Prop")
-        self.sp = sp
-        self.ep = ep
-        self.color = color
-        self.__width = width
+# class Figure:
+#     def __init__(self, color):
+#         self.__color = color
+#
+#     @property
+#     def color(self):
+#         return self.__color
+#
+#     @color.setter
+#     def color(self, c):
+#         self.__color = c
+#
+#
+# class Rectangle(Figure):
+#     def __init__(self, width, height, color, border):
+#         super().__init__(color)
+#         self.__width = width
+#         self.__height = height
+#         self.border = border
+#
+#     @property
+#     def width(self):
+#         return self.__width
+#
+#     @width.setter
+#     def width(self, w):
+#         if w > 0:
+#             self.__width = w
+#         else:
+#             raise ValueError("Значения ширины должно быть больше нуля")
+#
+#     @property
+#     def height(self):
+#         return self.__height
+#
+#     @height.setter
+#     def height(self, h):
+#         if h > 0:
+#             self.__height = h
+#         else:
+#             raise ValueError("Значения высоты должно быть больше нуля")
+#
+#     def border_new(self):
+#         return self.border
+#
+#     def area(self):
+#         # return self.color  # обращаемся не к закрытой переменной а к методу def color
+#         # return self.__width * self.__height
+#         return self.width * self.height
+#         # return self.border_new()
+#
+#
+# rect = Rectangle(10, 20, "green", "1px solid gray")
+# print(rect.area())
+# print(rect.width)  # обращаемся к гетерам
+# print(rect.height)  # обращаемся к гетерам
+# print(rect.color)  # обращаемся к гетерам
+# print(rect.border)  # в данном случае обращаемся к переменной
+# rect.width = -50
+# print(rect.area())
 
-    def get_width(self):
-        return self.__width
+# ============================================= ЗАДАЧА с ЖИДКОСТЬЮ ==========================
 
+# class Liquid:  # жидкость
+#     def __init__(self, name, density):
+#         self._name = name  # через одно подчеркивание _name  = переменные наследования
+#         self._density = density  # плотность
+#
+#     def edit_density(self, val):
+#         """изменение плотности"""
+#         self._density = val
+#
+#     def calc_v(self, m):  # вычеление объема жидкости, соответствуещего заданной массе
+#         res = m / self._density
+#         print(f"Объем {m} кг {self._name} равен {res} m^3.")
+#         return res
+#
+#     def calc_m(self, v):  # вычисление массы жидкости, соответствуещего заданному объему
+#         res = v * self._density
+#         print(f"Вес {v} m^3 {self._name} состовляет {res} кг.")
+#         return res
+#
+#     def print_info(self):
+#         print(f"Жидкость{self._name} (плотность = {self._density}kg/m^3.)")
+#
+#
+# class Alcohol(Liquid):
+#     def __init__(self, name, density, strength):
+#         super().__init__(name, density)
+#         self.strength = strength  # крепость
+#
+#     def edit_strength(self, val):  # изменение крепости
+#         self.strength = val
+#
+#
+# a = Alcohol("Wine", 1064.2, 14)
+# a.print_info()
+#
+# a.edit_density(1000)
+# a.print_info()
+#
+# a.calc_v(300)
+# a.calc_m(0.5)
+#
+#
+# print(a.strength)
+# a.edit_strength(20)
+# print(a.strength)
 
-class Line(Prop):  # наследуем класс
-    """дочерний класс"""
-    def __init__(self, *args):
-        print("Переопределенный инициализатор Line")  # Первым отрабатывает инициализатор дочернего класса
-        # Prop.__init__(self, *args)  # при переопределении обращаемся к род классу и передаем аргументы
-        super().__init__(*args)  # можно (чаще используется ) обращаться через super(), self указывать не нужно.
-        self.__width = 5
+# ==============================
 
-    def draw_line(self):
-        print(f"Рисование линии: {self.sp}, {self.ep}, {self.color}, {self.get_width()}")
+# class Point:  # класс для предоставления точек в трехмерном пространстве
+#     def __init__(self, x=0, y=0):
+#         self.x = x
+#         self.y = y
+#
+#     def __str__(self):
+#         return f"({self.x}, {self.y})"
+#
+#     def is_digit(self):
+#         if isinstance(self.x, (int, float)) and isinstance(self.y, (int, float)):
+#             return True
+#         else:
+#             return False
+#
+#     def is_int(self):
+#         if isinstance(self.x, int) and isinstance(self.y, int):
+#             return True
+#         else:
+#             return False
+#
+#
+# class Prop:
+#     def __init__(self, sp: Point, ep: Point, color: str = "red", width: int = 1):
+#         self._sp = sp
+#         self._ep = ep
+#         self._color = color
+#         self._width = width
+#
+#     def set_coords(self, sp, ep):
+#         if sp.is_digit() and ep.is_digit():
+#             self._sp = sp
+#             self._ep = ep
+#         else:
+#             print("Координаты должны быть числами")
+#
+#
+# class Line(Prop):
+#     def draw_line(self):
+#         print(f"Рисуем линию: {self._sp}, {self._ep}, {self._color}, {self._width}")
+#
+#
+# def set_coords(self, sp: Point, ep: Point):
+#     if sp.is_int() and ep.is_int():
+#         self._sp = sp
+#         self._ep = ep
+#     else:
+#         print("Координаты должны быть числами")
+#
+#
+# line = Line(Point(1.2, 2), Point(10, 20))
+# line.draw_line()
+# line.set_coords(Point(3.0, 40), Point(10.0, 200))
+# line.draw_line()
 
+#  НАСЛЕДУЕМ МЕТОДЫ ИЗ РОДИТЕЛЬСКОГО
 
-class Rect(Prop):  # наследуем класс
-    """дочерний класс"""
-    def draw_rect(self):
-        print(f"Рисование прямоугольник: {self.sp}, {self.ep}, {self.color}, {self.__width}")
-
-
-line = Line(Point(1, 2), Point(10, 20))
-line.draw_line()
-print(line.__dict__)
-
-
+# class Rect:
+#     def __init__(self, width, height):
+#         self.width = width
+#         self.height = height
+#
+#     def show_rect(self):
+#         print(f"Прямоугольник: \nШирина: {self.width}\nВысота: {self.height}")
+#
+#
+# class RectFon(Rect):
+#     def __init__(self, width, height, background):
+#         super().__init__(width, height)
+#         self.fon = background
+#
+#     def show_rect(self):
+#         super().show_rect()  # переопределение метода из родительского
+#         print("Рамка: ", self.fon)
+#
+# class RectBorder(Rect):
+#     def __init__(self, width, height, border):
+#         super().__init__(width, height)
+#         self.border = border
+#
+#     def show_rect(self):
+#         super().show_rect()  # переопределение метода из родительского
+#         print("Бордер: ", self.border)
+#
+#
+# shape1 = RectFon(100, 200, "Yellow")
+# shape1.show_rect()
+# print()
+# shape2 = RectBorder(600, 300, "1px solid red")
+# shape2.show_rect()
