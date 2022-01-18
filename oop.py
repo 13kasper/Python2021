@@ -2095,45 +2095,403 @@ import re
 # print(t.calc_area())
 
 
-# DZ-13.01.22
+# DZ - 13.01.22
 from abc import ABC, abstractmethod
 import math
 
 
-class Root(ABC):
+# class Root(ABC):
+#
+#     @abstractmethod
+#     def equation(self, a, b, c=None):
+#         pass
+#
+#
+# class Linear(Root):
+#     def equation(self, a, b, c=None):
+#         if a == 0 and b == 0:
+#             print('Бесконечность')
+#         elif a != 0 and (b == 0 or a <= b):
+#             print(f"The root of '3x+7=0' is: {round((-b / a), 2)}")
+#         else:
+#             raise TypeError('Корней нет')
+#
+#
+# class Quadrate(Root):
+#     def equation(self, a, b, c=None):
+#         d = b ** 2 + 4 * a * c
+#         if d > 0:
+#             x1 = (b + math.sqrt(d)) / (2 * a)
+#             x2 = (b - math.sqrt(d)) / (2 * a)
+#             print(f"The roots of '1x^2-2x-3=0' are: {x1}, {x2}")
+#         elif d == 0:
+#             x = b / (2 * a)
+#             print(f"Корень = {x}")
+#         else:
+#             print("Корней нет")
+#
+#
+# p1 = Linear()
+# p1.equation(3, 7)
+#
+# p2 = Quadrate()
+# p2.equation(1, 2, 3)
 
-    @abstractmethod
-    def line(self, a, b):
-        if a == 0 and b == 0:
-            print('Бесконечность')
-        elif a != 0 and (b == 0 or a <= b):
-            print(f"The root of '3x+7=0' is: {round((-b / a), 2)}")
-        else:
-            raise TypeError('Корней нет')
+# ========================================================= 13.01.22
 
-    @abstractmethod
-    def quad(self, a, b, c):
-        d = b ** 2 + 4 * a * c
-        if d > 0:
-            x1 = (b + math.sqrt(d)) / (2 * a)
-            x2 = (b - math.sqrt(d)) / (2 * a)
-            print(f"The roots of '1x^2-2x-3=0' are: {x1}, {x2}")
-        elif d == 0:
-            x = b / (2 * a)
-            print(f"Корень = {x}")
-        else:
-            print("Корней нет")
+# from abc import ABC, abstractmethod
+#
+#
+# class Currency(ABC):
+#     def __init__(self, value):
+#         self.value = value
+#
+#     @abstractmethod
+#     def convert_to_rub(self):
+#         pass
+#
+#     def print_value(self):
+#         print(self.value, end=" ")
+#
+#
+# class Dollar(Currency):
+#     rate_to_rub = 74.16
+#     suffix = "USD"
+#
+#     def convert_to_rub(self):
+#         rub = self.value * Dollar.rate_to_rub
+#         return rub
+#
+#     def print_value(self):
+#         super().print_value()
+#         print(Dollar.suffix, end=" ")
+#
+#
+# class Euro(Currency):
+#     rate_to_rub = 90.14
+#     suffix = "EUR"
+#
+#     def convert_to_rub(self):
+#         rub = self.value * Euro.rate_to_rub
+#         return rub
+#
+#     def print_value(self):
+#         super().print_value()
+#         print(Euro.suffix, end=" ")
+#
+#
+# d = [Dollar(5), Dollar(10), Dollar(50), Dollar(100)]
+# e = [Euro(5), Euro(10), Euro(50), Euro(100)]
+# print("*" * 50)
+# for i in d:
+#     i.print_value()
+#     print(f"= {i.convert_to_rub():.2f} RUB")
+# print("*" * 50)
+# for i in e:
+#     i.print_value()
+#     print(f"= {i.convert_to_rub():.2f} RUB")
+
+# =======================================================================
+
+# from abc import ABC, abstractmethod
+#
+#
+# class Father(ABC):
+#     @abstractmethod
+#     def display1(self):
+#         pass
+#
+#     @abstractmethod
+#     def display2(self):
+#         pass
+#
+#
+# class Child(Father):
+#     def display1(self):
+#         print("Child Class")
+#         print("Display 1 Abstract Method")
+#
+#
+# class GrandChild(Child):
+#     def display2(self):
+#         print("GrandChild Class")
+#         print("Display 2 Abstract Method")
+#
+#
+# gc = GrandChild()
+# gc.display1()
+# gc.display2()
 
 
-class Linear(Root):
-    def line(self, a, b):
-        super().line(a, b)
+# ================================================= ВЛОЖЕННЫЕ КЛАССЫ =================================
 
-    def quad(self, a, b, c):
-        super().quad(a, b, c)
+# class MyOuter:
+#     age = 18
+#
+#     def __init__(self, name):
+#         self.name = name
+#
+#     @classmethod
+#     def outer_class_method(cls):
+#         print("Я - метод внешнего класса")
+#
+#     def outer_obj_method(self):
+#         print("Я являюсь связующим методом объекта внешнего класса")
+#
+#     class MyInner:  # вложенный класс не видит переменных и методов родительского ( делаем через имя родителя )
+#         def __init__(self, inner_name, obj):
+#             self.inner_name = inner_name
+#             self.obj = obj
+#
+#         def inner_method(self):
+#             print("Я - метод внутреннего класса")
+#             MyOuter.outer_class_method()  # вызываем через имя родительского класса
+#             out1 = MyOuter("Внешний класс")
+#             print(out1.name)
+#             print(MyOuter.age)
+#             self.obj.outer_obj_method()
+#
+#
+# out = MyOuter("Внешний")
+# inner = out.MyInner("Внутренний", out)
+# print(inner.inner_name)
+# inner.inner_method()
+
+# ======================================
+
+class Employee:
+    def __init__(self):
+        self.name = "Employee"
+        self.intern = self.Intern()
+        self.head = self.Head()
+
+    def show(self):
+        print("Employee list")
+        print("Name", self.name)
+
+    class Intern:
+        def __init__(self):
+            self.name = "Smith"
+            self.id = "657"
+
+        def display(self):
+            print("Name: ", self.name)
+            print("Degree: ", self.id)
+
+    class Head:
+        def __init__(self):
+            self.name = "Albina"
+            self.id = "007"
+
+        def display(self):
+            print("Name: ", self.name)
+            print("Degree: ", self.id)
 
 
-p1 = Linear()
-p1.line(3, 7)
-p2 = Linear()
-p2.quad(1, 2, 3)
+outer = Employee()
+outer.show()
+
+d1 = outer.intern
+d2 = outer.head
+d1.display()
+print("*" * 20)
+d2.display()
+
+
+# =================================================
+
+# class Geeksforgeeks:
+#     def __init__(self):
+#         self.inner = self.Inner()
+#
+#     def show(self):
+#         print("This is an outer class")
+#
+#     class Inner:
+#         def __init__(self):
+#             self.inner_inner = self.InnerClass()
+#
+#         def show(self):
+#             print("This is the inner class")
+#
+#         class InnerClass:
+#             def show(self):
+#                 print("This is an inner class of inner class")
+#
+#
+# outer = Geeksforgeeks()
+# outer.show()
+#
+# inner1 = outer.inner
+# inner1.show()
+#
+# inner2 = outer.inner.inner_inner
+# inner2.show()
+
+
+# ============================================
+# ===========================================
+# # class OS:
+# #    def system(self):
+# #         return "Windows 10"
+# #
+# #
+# # class CPU:
+# #     def make(self):
+# #         return "Intel"
+# #
+# #     def model(self):
+# #         return "Core-i7"
+
+# # class OS:
+# #     def system(self):
+# #         return "Windows 10"
+# ============================================
+
+# class Computer:
+#     def __init__(self):
+#         self.name = "PC001"
+#         self.os = self.OS()
+#         self.cpu = self.CPU()
+#
+#     class CPU:
+#         def make(self):
+#             return "Intel"
+#
+#         def model(self):
+#             return "Core-i7"
+#
+#     class OS:
+#         def system(self):
+#             return "Windows 10"
+#
+# comp = Computer()
+# my_os = comp.os
+# my_cpu = comp.cpu
+#
+# print(comp.name)
+# print(my_os.system())
+# print(my_cpu.make())
+# print(my_cpu.model())
+
+# ======================================
+
+# class Base:
+#     def __init__(self):
+#         self.db = self.Inner()  # переменная для доступа из дочернего
+#
+#     def display(self):
+#         print("In Base Class")
+#
+#     class Inner:
+#         def display1(self):
+#             print("Inner of Base class")
+#
+#
+# class SubClass(Base):
+#     def __init__(self):
+#         print("In Subclass")
+#         super().__init__()
+#
+#     class Inner(Base.Inner):  # наследуемся у дочернего класса родителя
+#
+#         def display2(self):
+#             print("Inner of Subclass")
+#
+#
+# a = SubClass()
+# a.display()
+#
+# b = a.db
+# # b = SubClass.Inner
+# b.display1()
+# b.display2()
+
+
+# ======================================= НАследование от нескольких Родителей *******************
+
+# class Creature:
+#     def __init__(self, name):
+#         self.name = name
+#
+#
+# class Animal(Creature):
+#     def sleep(self):
+#         print(self.name + " is sleeping")
+#
+#
+# class Pet(Creature):
+#     def play(self):
+#         print(self.name + " is playing")
+#
+#
+# class Dog(Animal, Pet):
+#     def bark(self):
+#         print(self.name + " is braking")
+#
+#
+# b = Dog("Buddy")
+# b.bark()
+# b.play()
+# b.sleep()
+
+# ==============================================
+
+# class A:
+#     def __init__(self):
+#         print("Инициализатор класса А")
+#
+#
+# class B(A):
+#     def __init__(self):
+#         print("Инициализатор класса B")
+#
+#
+# class C(A):
+#     def __init__(self):
+#         print("Инициализатор класса C")
+#
+#
+# class D(B, C):  # если два равных родителя, то в первую очередь отработает тот что прописан первым (в данном случае В)
+#     pass
+#     # def __init__(self):
+#     #     print("Инициализатор класса D")
+#
+#
+# d = D()
+# print(D.mro())  # mro -  отображает наследование ********************************************************************
+
+
+# =====================================
+
+# class Point:
+#     def __init__(self, x=0, y=0):
+#         self.x = x
+#         self.y = y
+#
+#     def __str__(self):
+#         return f"({self.x, self.y})"
+#
+#
+# class Styles:
+#     def __init__(self, color="red", width=1):
+#         print("Инициализатор Styles")
+#         self._color = color
+#         self._width = width
+#
+#
+# class Pos:
+#     def __init__(self, sp: Point, ep: Point, *args):
+#         print("Инийиализатор Pos")
+#         self._sp = sp
+#         self._ep = ep
+#         Styles.__init__(self, *args)
+#
+#
+# class Line(Pos, Styles):
+#     def draw(self):
+#         print(f"Рисование линии: {self._sp, self._ep, self._color, self._width}")
+#
+#
+# l1 = Line(Point(10, 10), Point(100, 100), "green", 5)
+# l1.draw()
