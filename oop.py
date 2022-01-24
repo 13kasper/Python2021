@@ -2259,43 +2259,43 @@ import math
 
 # ======================================
 
-class Employee:
-    def __init__(self):
-        self.name = "Employee"
-        self.intern = self.Intern()
-        self.head = self.Head()
-
-    def show(self):
-        print("Employee list")
-        print("Name", self.name)
-
-    class Intern:
-        def __init__(self):
-            self.name = "Smith"
-            self.id = "657"
-
-        def display(self):
-            print("Name: ", self.name)
-            print("Degree: ", self.id)
-
-    class Head:
-        def __init__(self):
-            self.name = "Albina"
-            self.id = "007"
-
-        def display(self):
-            print("Name: ", self.name)
-            print("Degree: ", self.id)
-
-
-outer = Employee()
-outer.show()
-
-d1 = outer.intern
-d2 = outer.head
-d1.display()
-print("*" * 20)
-d2.display()
+# class Employee:
+#     def __init__(self):
+#         self.name = "Employee"
+#         self.intern = self.Intern()
+#         self.head = self.Head()
+#
+#     def show(self):
+#         print("Employee list")
+#         print("Name", self.name)
+#
+#     class Intern:
+#         def __init__(self):
+#             self.name = "Smith"
+#             self.id = "657"
+#
+#         def display(self):
+#             print("Name: ", self.name)
+#             print("Degree: ", self.id)
+#
+#     class Head:
+#         def __init__(self):
+#             self.name = "Albina"
+#             self.id = "007"
+#
+#         def display(self):
+#             print("Name: ", self.name)
+#             print("Degree: ", self.id)
+#
+#
+# outer = Employee()
+# outer.show()
+#
+# d1 = outer.intern
+# d2 = outer.head
+# d1.display()
+# print("*" * 20)
+# d2.display()
 
 
 # =================================================
@@ -2495,3 +2495,598 @@ d2.display()
 #
 # l1 = Line(Point(10, 10), Point(100, 100), "green", 5)
 # l1.draw()
+
+
+# ============================================================== 18.01.22
+
+# class Student:
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def show(self):
+#         print(self.name, end="")
+#
+#     class Notebook:
+#         def __init__(self):
+#             self.brand = "HP"
+#             self.cpu = "i7"
+#             self.ram = 16
+#
+#         def show(self):
+#             print(f"=> {self.brand}, {self.cpu}, {self.ram}")
+#
+#
+# s1 = Student("Roman")
+# s2 = Student("Vladimir")
+#
+# s1.show()
+# s2.show()
+
+# +======================================================== МИКСИНЫ (mixins) / ПРИМЕСИ ++++++++++++++++++++++++++
+
+# class Displayer:
+#     @staticmethod
+#     def display(message):
+#         print(message)
+#
+#
+# class LoggerMixin:
+#     def log(self, message, filename='logfile.txt'):
+#         with open(filename, 'a') as fh:
+#             fh.write(message)
+#
+#     def display(self, message):
+#         Displayer.display(message)
+#         self.log(message)
+#
+#
+# class MySubClass(LoggerMixin, Displayer):
+#     def log(self, message, filename=""):
+#         super().log(message, filename="subclasslog.txt")
+#
+#
+# sub = MySubClass()
+# sub.display("Эта строка будет отображаться и записываться в файл")
+
+# ==========================
+
+# class Goods:
+#     def __init__(self, name, weight, price):
+#         super().__init__()
+#         print("Init Goods")
+#         self.name = name
+#         self.wight = weight
+#         self.price = price
+#
+#     def print_info(self):
+#         print(f"{self.name}, {self.wight}, {self.price}")
+#
+#
+# class MixinLog:
+#     ID = 0
+#
+#     def __init__(self):
+#         print("Init MixinLog")
+#         self.ID += 1
+#         self.id = self.ID
+#
+#     def save_sell_log(self):
+#         print(f"{self.id}: Товар был продан в 00:00 часов")
+#
+#
+# class NoteBook(Goods, MixinLog):
+#     pass
+#
+#
+# n = NoteBook("HP", 1.5, 35000)
+# n.print_info()
+# n.save_sell_log()
+# print(NoteBook.mro())
+
+# ======================================================= ПЕРЕГРУЗКА ОПЕРАТОРОВ ================================
+# __add__ / __sub__ / __mul__ / __truediv__ / __floordiv__  / __mod__
+# ФОрмотирование времени *************************
+
+# class Clock:
+#     __DAY = 86400  # 86400 сек в сутках = 24*60*60
+#
+#     def __init__(self, secs: int):
+#         if not isinstance(secs, int):
+#             raise ValueError("Секунды должны быть целым числом")
+#
+#         self.__secs = secs % self.__DAY
+#
+#     def get_format_time(self):
+#         s = self.__secs % 60  # секнды
+#         m = (self.__secs // 60) % 60  # минуты
+#         h = (self.__secs // 3600) % 24  # часы
+#         return f"{Clock.__get_form(h)}:{Clock.__get_form(m)}:{Clock.__get_form(s)}"
+#
+#     @staticmethod
+#     def __get_form(x):
+#         return str(x) if x > 9 else "0" + str(x)
+#
+#     def __add__(self, other):  # add=Перезагрузка, self = c1, other = c2
+#         if not isinstance(other, Clock):
+#             raise ArithmeticError("Правый оперант должен быть типом Clock")
+#
+#         return Clock(self.__secs + other.__secs)
+#
+#
+# c1 = Clock(100)
+# c2 = Clock(200)
+# c3 = Clock(300)
+#
+# print(c1.get_format_time())
+# print(c2.get_format_time())
+# print(c3.get_format_time())
+# c4 = c1 + c2 + c3
+# print(c4.get_format_time())
+
+# ======================
+
+
+# class Clock:
+#     __DAY = 86400  # 86400 сек в сутках = 24*60*60
+#
+#     def __init__(self, secs: int):
+#         if not isinstance(secs, int):
+#             raise ValueError("Секунды должны быть целым числом")
+#
+#         self.__secs = secs % self.__DAY
+#
+#     def get_format_time(self):
+#         s = self.__secs % 60  # секнды
+#         m = (self.__secs // 60) % 60  # минуты
+#         h = (self.__secs // 3600) % 24  # часы
+#         return f"{Clock.__get_form(h)}:{Clock.__get_form(m)}:{Clock.__get_form(s)}"
+#
+#     @staticmethod
+#     def __get_form(x):
+#         return str(x) if x > 9 else "0" + str(x)
+#
+#     def __mul__(self, other):  # add=Перезагрузка, self = c1, other = c2
+#         if not isinstance(other, Clock):
+#             raise ArithmeticError("Правый оперант должен быть типом Clock")
+#
+#         return Clock(self.__secs * other.__secs)
+#
+#     def __eq__(self, other):
+#         if self.__secs == other.__secs:
+#             return True
+#         return False
+#
+#     def __ne__(self, other):
+#         return not self.__eq__(other)  # противоположное значение __eq__
+#
+#
+# c1 = Clock(200)
+# c2 = Clock(200)
+# c3 = Clock(300)
+# # c1 *= c2 * c3  # ====================================== второй вариант
+# print(c1.get_format_time())
+# print(c2.get_format_time())
+#
+# # ============================= ПРОПИСАТЬ ВСЕ МЕТОДЫ ПЕРЕЗАГРУЗКИ =================================
+#
+# if c1 == c2:
+#     print("Время одинаково")
+#
+# if c1 != c3:
+#     print("Время разное")
+
+
+# ======================================================================= 20.01.22 ====================
+# Перезагрузка методов продолжение, перегрузка квадратных скобок
+
+# class Student:
+#     def __init__(self, name, marks):
+#         self.name = name
+#         self.marks = list(marks)  # указываем список
+#
+#     def __getitem__(self, item):  # __getitem__ перегрузили возможность получения данных в квадратных скобках
+#         if 0 <= item < len(self.marks):  # проверка на верный индекс ( существующий )
+#             return self.marks[item]
+#         else:
+#             raise IndexError("Неверный индекс")
+#
+#     def __setitem__(self, key, value):  # __setitem__
+#         if not isinstance(key, int) or key < 0:
+#             raise TypeError("Индекс должен быть целым неотрицательным числом")
+#
+#         if key >= len(self.marks):
+#             off = key + 1 - len(self.marks)  # если ключ больше чем длина списка
+#             self.marks.extend([None] * off)  # пишем None в места пропусков индекса, новое значение записываем в конец
+#
+#         self.marks[key] = value  # устанавливаем в какой то ключ какое то значение
+#
+#     def __delitem__(self, key):  # удаление значения по ключу
+#         if not isinstance(key, int):
+#             raise TypeError("Индекс должен быть целым числом")
+#         del self.marks[key]
+#
+#
+# s1 = Student("Сергей", [5, 8, 4, 3, 2])
+# # print(s1.marks[2])
+# # print(s1[2])
+# # print(s1[12])  # выходим за рамки списка-индекс не существует
+# # s1[2] = 22  # пытаемся записать в список
+# # s1["2.5"] = 22  # пытаемся записать неверный индекс
+# # print(s1[2])
+# s1[10] = 33  # записываем значение в несуществующий индекс с пропуском промежуточных
+# del s1[2]  # удаляем элемент
+# print(s1.marks)
+
+
+# ================================== ЗАДАЧА напишите класс  Point3D сложение 3 координат итд
+
+# class Point3D:
+#     CH = "Координата должна быть числом"
+#     RIGHT = "Правый оперант должен быть типом Point3D"
+#
+#     def __init__(self, x=0, y=0, z=0):
+#         self.x = x  # будут поступать сеттеры х
+#         self.y = y
+#         self.z = z
+#
+#     def __str__(self):
+#         return f"{self.x}, {self.y}, {self.z}"  # вызывается геттер
+#
+#     @staticmethod  # проверяем на int и float
+#     def __check_value(v):
+#         return isinstance(v, int) or isinstance(v, float)  # isinstance(v, (int, float)) Тоже самое
+#
+#     @staticmethod
+#     def __check0(exemplar):
+#         if exemplar.x == 0 or exemplar.y == 0 or exemplar.z == 0:
+#             raise ZeroDivisionError("ни одна из координат второго операнда не должна быть равна 0")
+#
+#     @property
+#     def x(self):
+#         return self.__x
+#
+#     @x.setter
+#     def x(self, value):
+#         if self.__check_value(value):
+#             self.__x = value
+#         else:
+#             print(self.CH)
+#
+#     @property
+#     def y(self):
+#         return self.__y
+#
+#     @y.setter
+#     def y(self, value):
+#         if self.__check_value(value):
+#             self.__y = value
+#         else:
+#             print(self.CH)
+#
+#     @property
+#     def z(self):
+#         return self.__z
+#
+#     @z.setter
+#     def z(self, value):
+#         if self.__check_value(value):
+#             self.__z = value
+#         else:
+#             print(self.CH)
+#
+#     def __add__(self, other):  # Перегрузка методов на сложение
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return Point3D(self.__x + other.x, self.__y + other.y, self.__z + other.z)
+#
+#     def __sub__(self, other):  # Перегрузка методов на вычитание
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return Point3D(self.__x - other.x, self.__y - other.y, self.__z - other.z)
+#
+#     def __mul__(self, other):  # Перегрузка методов на умножение
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return Point3D(self.__x * other.x, self.__y * other.y, self.__z * other.z)
+#
+#     def __truediv__(self, other):  # Перегрузка методов на деление = other делитель
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         self.__check0(other)
+#         return Point3D(self.__x / other.x, self.__y / other.y, self.__z / other.z)
+#
+#     def __eq__(self, other):  # Перегрузка методов на равенство
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         return self.__x == other.x and self.__y == other.y and self.__z == other.z
+#
+#     def __getitem__(self, item):  # проверяем на строковые значения в индексе
+#         if not isinstance(item, str):
+#             raise ValueError("Ключ должен быть строкой")
+#         elif item == "x":
+#             return self.__x
+#         elif item == "y":
+#             return self.__y
+#         elif item == "z":
+#             return self.__z
+#         else:
+#             print("Неверное значение ключа")
+#
+#     def __setitem__(self, key, value):
+#         if not isinstance(key, str):
+#             raise ValueError("Ключ должен быть строкой")
+#         if self.__check_value(value):
+#             if key == "x":
+#                 self.__x = value
+#             if key == "y":
+#                 self.__y = value
+#             if key == "z":
+#                 self.__z = value
+#         else:
+#             print("координаты должны быть числами")
+#
+#
+# pt = Point3D(12, 15, 18)
+# pt2 = Point3D(6, 3, 9)
+# print(f"Координаты 1-й точки {pt}")
+# print(f"Координаты 2-й точки {pt2}")
+#
+# pt3 = pt + pt2  # складываем xyz + xyz
+# print(f"Сложение координат ({pt3})")
+# pt4 = pt - pt2
+# print(f"Вычитание координат ({pt4})")
+# pt5 = pt * pt2
+# print(f"Умножение координат ({pt5})")
+# pt6 = pt / pt2
+# print(f"Деление координат ({pt6})")
+# print(f"Равенство координат {pt == pt2}")
+#
+# print('x=', pt["x"], 'x1=', pt2["x"])
+# print('y=', pt["y"], 'y1=', pt2["y"])
+# print('z=', pt["z"], 'z1=', pt2["z"])
+#
+# pt['x'] = 20
+# print("Запись значения в координату x:", pt['x'])
+# print(f"Координаты 1-й точки {pt}")
+
+
+# =============================================================
+
+# class Rectangle:
+#     def __init__(self, w, h):
+#         self.w = w
+#         self.h = h
+#
+#     def get_per_rect(self):
+#         return 2 * (self.w + self.h)
+#
+#
+# class Square:
+#     def __init__(self, a):
+#         self.a = a
+#
+#     def get_per_sq(self):
+#         return 4 * self.a
+#
+#
+# r1 = Rectangle(1, 2)
+# r2 = Rectangle(3, 4)
+# print(r1.get_per_rect(), r2.get_per_rect())
+# s1 = Square(10)
+# s2 = Square(20)
+# print(s1.get_per_sq(), s2.get_per_sq())
+#
+# shape = [r1, r2, s1, s2]
+#
+# for g in shape:
+#     if isinstance(g, Rectangle):
+#         print(g.get_per_rect())
+#     else:
+#         print(g.get_per_sq())
+
+# тоже самое с полиморфизмом ( другая реализация с одним названием метода )
+# class Rectangle:
+#     def __init__(self, w, h):
+#         self.w = w
+#         self.h = h
+#
+#     def get_perimetr(self):
+#         return 2 * (self.w + self.h)
+#
+#
+# class Square:
+#     def __init__(self, a):
+#         self.a = a
+#
+#     def get_perimetr(self):
+#         return 4 * self.a
+#
+#
+# r1 = Rectangle(1, 2)
+# r2 = Rectangle(3, 4)
+# s1 = Square(10)
+# s2 = Square(20)
+# shape = [r1, r2, s1, s2]
+#
+# for g in shape:
+#     print(g.get_perimetr())
+
+# ======================================
+# аналог сложения чисел и строк ==== ПОЛИМОРФИЗМ ======================================
+# class Number:
+#     def __init__(self, value):
+#         self.value = value
+#
+#     def total(self, a):
+#         return self.value + int(a)
+#
+#
+# class Text:
+#     def __init__(self, value):
+#         self.value = value
+#
+#     def total(self, a):
+#         return len(self.value + str(a))
+#
+#
+# t1 = Number(10)
+# t2 = Text("Python")
+# print(t1.total(35))
+# print(t2.total(35))
+
+# ========================================================= ПОЛИМОРФИЗМ ====================
+
+# class Cat:
+#     def __init__(self, name, age):
+#         self.name = name
+#         self.age = age
+#
+#     def info(self):
+#         print(f"Я собака. Меня зовут {self.name}. Мой возраст {self.age}")
+#
+#     def make_sound(self):
+#         print(f"{self.name} мяукает")
+#
+#
+# class Dog:
+#     def __init__(self, name, age):
+#         self.name = name
+#         self.age = age
+#
+#     def info(self):
+#         print(f"Я кот. Меня зовут {self.name}. Мой возраст {self.age}")
+#
+#     def make_sound(self):
+#         print(f"{self.name} гавкает")
+#
+#
+# cat = Cat("Пушок", 0.5)
+# dog = Dog("Мухтар", 4)
+#
+# for animal in (cat, dog):
+#     animal.info()
+#     animal.make_sound()
+
+# ===================================================== МЕТОЖ REPR
+
+# class Cat:
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def __repr__(self):  # обязательно возвращает строковое выражение (f"")
+#         """служебная информация (техническая)"""
+#         return f"{self.__class__}:{self.name}"  # выводим информацию к какому классу относится и информацию переменной
+#
+#     def __str__(self):  # первым отрабатывает __str__
+#         return f"{self.name}"
+#
+#
+# cat = Cat("Пушок")
+# print(cat)
+
+# DZ-22.01.22
+
+# class Point3D:
+#     CH = "Координата должна быть числом"
+#     RIGHT = "Правый оперант должен быть типом Point3D"
+#
+#     def __init__(self, x=0, y=0, z=0):
+#         self.x = x  # будут поступать сеттеры х
+#         self.y = y
+#         self.z = z
+#
+#     def __str__(self):
+#         return f"{self.x}, {self.y}, {self.z}"  # вызывается геттер
+#
+#     @staticmethod  # проверяем на int и float
+#     def __check_value(v):
+#         return isinstance(v, int) or isinstance(v, float)  # isinstance(v, (int, float)) Тоже самое
+#
+#     @staticmethod
+#     def __check0(exemplar):
+#         if exemplar.x == 0 or exemplar.y == 0 or exemplar.z == 0:
+#             raise ZeroDivisionError("ни одна из координат второго операнда не должна быть равна 0")
+#
+#     @property
+#     def x(self):
+#         return self.__x
+#
+#     @x.setter
+#     def x(self, value):
+#         if self.__check_value(value):
+#             self.__x = value
+#         else:
+#             print(self.CH)
+#
+#     @property
+#     def y(self):
+#         return self.__y
+#
+#     @y.setter
+#     def y(self, value):
+#         if self.__check_value(value):
+#             self.__y = value
+#         else:
+#             print(self.CH)
+#
+#     @property
+#     def z(self):
+#         return self.__z
+#
+#     @z.setter
+#     def z(self, value):
+#         if self.__check_value(value):
+#             self.__z = value
+#         else:
+#             print(self.CH)
+#
+#     def __add__(self, other):  # Перегрузка методов на сложение
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return Point3D(self.__x + other.x, self.__y + other.y, self.__z + other.z)
+#
+#     def __gt__(self, other):
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return self.__x > other.x and self.__y > other.y and self.__y > other.y
+#
+#     def __ge__(self, other):
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return self.__x >= other.x and self.__y >= other.y and self.__y >= other.y
+#
+#     def __lt__(self, other):
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return self.__x < other.x and self.__y < other.y and self.__y < other.y
+#
+#     def __le__(self, other):
+#         if not isinstance(other, Point3D):
+#             raise ValueError(self.RIGHT)
+#         else:
+#             return self.__x <= other.x and self.__y <= other.y and self.__y <= other.y
+#
+#
+# pt = Point3D(6, 3, 9)
+# pt2 = Point3D(6, 3, 9)
+# print(f"Координаты 1-й точки {pt}")
+# print(f"Координаты 2-й точки {pt2}")
+#
+# pt3 = pt > pt2
+# print(f"pt больше pt2 ? : {pt3}")
+#
+# pt4 = pt >= pt2
+# print(f"pt больше или равно pt2 ? : {pt4}")
+#
+# pt5 = pt < pt2
+# print(f"pt меньше pt2 ? : {pt5}")
+#
+# pt6 = pt <= pt2
+# print(f"pt меньше или равно pt2 ? : {pt6}")
