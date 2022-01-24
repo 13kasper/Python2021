@@ -2099,7 +2099,6 @@ import re
 from abc import ABC, abstractmethod
 import math
 
-
 # class Root(ABC):
 #
 #     @abstractmethod
@@ -2970,7 +2969,7 @@ import math
 #     animal.info()
 #     animal.make_sound()
 
-# ===================================================== МЕТОЖ REPR
+# ===================================================== МЕТОД REPR
 
 # class Cat:
 #     def __init__(self, name):
@@ -2987,106 +2986,104 @@ import math
 # cat = Cat("Пушок")
 # print(cat)
 
-# DZ-22.01.22
+# DZ_24_01_22
 
-# class Point3D:
-#     CH = "Координата должна быть числом"
-#     RIGHT = "Правый оперант должен быть типом Point3D"
-#
-#     def __init__(self, x=0, y=0, z=0):
-#         self.x = x  # будут поступать сеттеры х
-#         self.y = y
-#         self.z = z
-#
-#     def __str__(self):
-#         return f"{self.x}, {self.y}, {self.z}"  # вызывается геттер
-#
-#     @staticmethod  # проверяем на int и float
-#     def __check_value(v):
-#         return isinstance(v, int) or isinstance(v, float)  # isinstance(v, (int, float)) Тоже самое
-#
-#     @staticmethod
-#     def __check0(exemplar):
-#         if exemplar.x == 0 or exemplar.y == 0 or exemplar.z == 0:
-#             raise ZeroDivisionError("ни одна из координат второго операнда не должна быть равна 0")
-#
-#     @property
-#     def x(self):
-#         return self.__x
-#
-#     @x.setter
-#     def x(self, value):
-#         if self.__check_value(value):
-#             self.__x = value
-#         else:
-#             print(self.CH)
-#
-#     @property
-#     def y(self):
-#         return self.__y
-#
-#     @y.setter
-#     def y(self, value):
-#         if self.__check_value(value):
-#             self.__y = value
-#         else:
-#             print(self.CH)
-#
-#     @property
-#     def z(self):
-#         return self.__z
-#
-#     @z.setter
-#     def z(self, value):
-#         if self.__check_value(value):
-#             self.__z = value
-#         else:
-#             print(self.CH)
-#
-#     def __add__(self, other):  # Перегрузка методов на сложение
-#         if not isinstance(other, Point3D):
-#             raise ValueError(self.RIGHT)
-#         else:
-#             return Point3D(self.__x + other.x, self.__y + other.y, self.__z + other.z)
-#
-#     def __gt__(self, other):
-#         if not isinstance(other, Point3D):
-#             raise ValueError(self.RIGHT)
-#         else:
-#             return self.__x > other.x and self.__y > other.y and self.__y > other.y
-#
-#     def __ge__(self, other):
-#         if not isinstance(other, Point3D):
-#             raise ValueError(self.RIGHT)
-#         else:
-#             return self.__x >= other.x and self.__y >= other.y and self.__y >= other.y
-#
-#     def __lt__(self, other):
-#         if not isinstance(other, Point3D):
-#             raise ValueError(self.RIGHT)
-#         else:
-#             return self.__x < other.x and self.__y < other.y and self.__y < other.y
-#
-#     def __le__(self, other):
-#         if not isinstance(other, Point3D):
-#             raise ValueError(self.RIGHT)
-#         else:
-#             return self.__x <= other.x and self.__y <= other.y and self.__y <= other.y
-#
-#
-# pt = Point3D(6, 3, 9)
-# pt2 = Point3D(6, 3, 9)
-# print(f"Координаты 1-й точки {pt}")
-# print(f"Координаты 2-й точки {pt2}")
-#
-# pt3 = pt > pt2
-# print(f"pt больше pt2 ? : {pt3}")
-#
-# pt4 = pt >= pt2
-# print(f"pt больше или равно pt2 ? : {pt4}")
-#
-# pt5 = pt < pt2
-# print(f"pt меньше pt2 ? : {pt5}")
-#
-# pt6 = pt <= pt2
-# print(f"pt меньше или равно pt2 ? : {pt6}")
+from abc import ABC, abstractmethod
+import math
+
+
+class Shape(ABC):
+
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+    @abstractmethod
+    def square(self):
+        pass
+
+    @abstractmethod
+    def painting(self):
+        pass
+
+    @abstractmethod
+    def print_info(self):
+        pass
+
+
+class Square(Shape):
+    def __init__(self, x=0, y=0, color='red'):
+        self.x = x
+        self.y = y
+        self.color = color
+
+    def perimeter(self):
+        return 2 * (self.x + self.y)
+
+    def square(self):
+        return self.x * self.y
+
+    def painting(self):
+        for pain in range(self.x, 0, -1):
+            print(self.y * '*')
+
+    def print_info(self):
+        print(f"Сторона: {self.x}\nЦвет: {self.color}\nПлощадь: {self.square()}\nПериметр: {self.perimeter()}")
+
+
+class Rectangle(Shape):
+    def __init__(self, x=0, y=0, color='red'):
+        self.x = x
+        self.y = y
+        self.color = color
+
+    def perimeter(self):
+        return 2 * (self.x + self.y)
+
+    def square(self):
+        return self.x * self.y
+
+    def painting(self):
+        for pain in range(self.x, 0, -1):
+            print(self.y * '*')
+
+    def print_info(self):
+        print(
+            f"Сторона: {self.x}\nШирина: {self.y}\nЦвет: {self.color}\nПлощадь: {self.square()}\nПериметр: {self.perimeter()}")
+
+
+class Triangle(Shape):
+    def __init__(self, x=0, y=0, z=0, color='red'):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.color = color
+
+    def perimeter(self):
+        return (self.z + self.y + self.x) / 2
+
+    def square(self):
+        d = self.perimeter()
+        return round(math.sqrt(d * (d - self.x) * (d - self.y) * (d - self.z)), 2)
+
+    def painting(self):
+        for pain in range(0, self.y+1):
+            print(' ' * (self.y - pain), '* ' * pain)
+
+        # print('\n'.join([f"{' ' * (self.y - x - 1)}{'*' * (2 * x + 1)}" for x in range(0, self.y)]))
+
+    def print_info(self):
+        print(
+            f"Сторона 1: {self.x}\nСторона 2: {self.y}\nСторона 3: {self.z}\nЦвет: {self.color}\nПлощадь: {self.square()}\nПериметр: {self.perimeter()}")
+
+
+var = Square(3, 3)
+var1 = Rectangle(3, 7, "green")
+var2 = Triangle(11, 6, 6, "yellow")
+
+for i in (var, var1, var2):
+    i.perimeter()
+    i.square()
+    i.print_info()
+    i.painting()
+    print()
