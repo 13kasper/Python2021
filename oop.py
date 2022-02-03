@@ -3165,7 +3165,6 @@ import math
 # ===============================
 import math
 
-
 # class Point:
 #     __slots__ = ('x', 'y', '__length')  # прописываем какие переменные разрешены
 #
@@ -3678,25 +3677,121 @@ import math
 
 # ===============
 
-class MyMetaclass(type):
-    def __new__(mcs, name, bases, attr):  # Конструктор,  mcs = метакласс, имя, bases-от чего наследуем, аттрибуты
-        print("Создание нового объекта", name)
-        return super(MyMetaclass, mcs).__new__(mcs, name, bases, attr)
+# class MyMetaclass(type):
+#     def __new__(mcs, name, bases, attr):  # Конструктор,  mcs = метакласс, имя, bases-от чего наследуем, аттрибуты
+#         print("Создание нового объекта", name)
+#         return super(MyMetaclass, mcs).__new__(mcs, name, bases, attr)
+#
+#     def __init__(cls, name, bases, attr):  # первым параметром cls
+#         print("Инициализация класса", name)
+#         super(MyMetaclass, cls).__init__(name, bases, attr)
+#
+#
+# class Student(metaclass=MyMetaclass):
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def get_name(self):
+#         return self.name
+#
+#
+# stud = Student("Анна")
+# print(stud.get_name())
+# print(type(stud))
+# print(type(Student))
 
-    def __init__(cls, name, bases, attr):  # первым параметром cls
-        print("Инициализация класса", name)
-        super(MyMetaclass, cls).__init__(name, bases, attr)
+
+# ================================================================== 01.02.2022 =============
+
+# ============================================== СОЗДАНИЕ МОДУЛЕЙ =====================================
+
+# import math
+#
+# print(math.pi)
+#
+# from math import pi
+#
+# print(pi)
+
+# import rect, sq, trian  # не желательно разные модули импортировать в одной строке ( но можно )
+# import пакет.модуль  # вид записи = r1 = geometry.rect.Rectangle(1, 2)
+# import geometry.rect
+# import geometry.sq
+# import geometry.trian
+
+# from geometry import rect, sq, trian  # вид записи r1 = rect.Rectangle(1, 2)
 
 
-class Student(metaclass=MyMetaclass):
-    def __init__(self, name):
-        self.name = name
-
-    def get_name(self):
-        return self.name
+# from geometry import *  # для такого импорта прописываем список имен модулей в файл __init__
 
 
-stud = Student("Анна")
-print(stud.get_name())
-print(type(stud))
-print(type(Student))
+# r1 = rect.Rectangle(1, 2)
+# r2 = rect.Rectangle(3, 4)
+# # print(r1)
+#
+# s1 = sq.Square(10)
+# s2 = sq.Square(20)
+#
+# t1 = trian.Triangle(1, 2, 3)
+# t2 = trian.Triangle(4, 5, 6)
+#
+# shape = [r1, r2, s1, s2, t1, t2]
+#
+# for g in shape:
+#     print(g.get_perimetr())
+
+
+# if __name__ == __main__:
+#     r1 = rect.Rectangle(1, 2)
+#     r2 = rect.Rectangle(3, 4)
+#     # print(r1)
+#
+#     s1 = sq.Square(10)
+#     s2 = sq.Square(20)
+#
+#     t1 = trian.Triangle(1, 2, 3)
+#     t2 = trian.Triangle(4, 5, 6)
+#
+#     shape = [r1, r2, s1, s2, t1, t2]
+#
+#     for g in shape:
+#         print(g.get_perimetr())
+
+
+# def main():
+#     r1 = rect.Rectangle(1, 2)
+#     r2 = rect.Rectangle(3, 4)
+#     # print(r1)
+#
+#     s1 = sq.Square(10)
+#     s2 = sq.Square(20)
+#
+#     t1 = trian.Triangle(1, 2, 3)
+#     t2 = trian.Triangle(4, 5, 6)
+#
+#     shape = [r1, r2, s1, s2, t1, t2]
+#
+#     for g in shape:
+#         print(g.get_perimetr())
+#
+#
+# if __name__ == '__main__':
+#     main()
+
+
+from car import carclass, electrocar
+
+
+class Person:
+    def show(self):
+        print('Hello')
+
+
+def main():
+    e = electrocar.Electrocar("Tesla", "T", 2018, 99000)
+    e.show_car()
+    e.description_battery()
+
+
+if __name__ == '__main__':
+    main()
