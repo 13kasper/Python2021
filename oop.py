@@ -3779,19 +3779,239 @@ import math
 #     main()
 
 
-from car import carclass, electrocar
+# from car import carclass, electrocar
+#
+#
+# class Person:
+#     def show(self):
+#         print('Hello')
+#
+#
+# def main():
+#     e = electrocar.Electrocar("Tesla", "T", 2018, 99000)
+#     e.show_car()
+#     e.description_battery()
+#
+#
+# if __name__ == '__main__':
+#     main()
 
 
-class Person:
-    def show(self):
-        print('Hello')
+# ==================================== 03.02.22 ======= УПАКОВКА ДАННЫХ ===================
+# Сериализация (кодирование) - запись данных  на диск
+# Десериализация (декодирование) - это чтение данных
+
+# Стандартной библиотеке Python:
+# - marshal = для поддержки старых форматов файлов питон
+# - pickle
+#    # dump()- метод для сохранения данных в файл (нечитабельные)
+#    # load()- считывает данные из файла
+#    # dumps()- сохраняет данные в оперативную память
+#    # loads()- считывает данные из оперативной памяти
+# - json
 
 
-def main():
-    e = electrocar.Electrocar("Tesla", "T", 2018, 99000)
-    e.show_car()
-    e.description_battery()
+import pickle
+
+# filename = 'basket.txt'
+#
+# shop_list = {
+#     'фрукты': ["яблоки", "манго"],
+#     'овощи': ["морковь"],
+#     'бюджет': 1000
+# }
+#
+# with open(filename, 'wb') as fh:
+#     pickle.dump(shop_list, fh)  # 1) что записываем в файл, 2) в какой файл (имя)
+#
+# with open(filename, 'rb') as fh:
+#     print(pickle.load(fh))
 
 
-if __name__ == '__main__':
-    main()
+# class Test:
+#     a_number = 35
+#     a_string = 'привет'
+#     a_list = [1, 2, 3]
+#     a_tuple = (22, 23)
+#     a_dict = {"first": "a", "second": 2, "third": [1, 2, 3]}
+#
+#     def __str__(self):
+#         return f"Число: {Test.a_number}\nСтрока: {Test.a_string}\n" \
+#                f"Список: {Test.a_list}\nКортеж: {Test.a_tuple}\nСловарь: {Test.a_dict}"
+#
+#
+# obj = Test()
+# my_obj = pickle.dumps(obj)
+# print(f"Сериализация в строку:\n{my_obj}\n")
+#
+# l_obj = pickle.loads(my_obj)
+# print(f"Десериализация в строку:\n{l_obj}\n")
+
+
+# class Test2:
+#     def __init__(self):
+#         self.a = 35
+#         self.b = 'test'
+#         self.c = lambda x: x * x
+#
+#     def __getstate__(self):  # Переопределяет
+#         attr = self.__dict__.copy()  # копируем все данные self в переменную
+#         print(attr)
+#         del attr['c']  # даляем по индексу переменную
+#         print(attr)
+#         return attr
+#
+#     def __setstate__(self, state):  # state-
+#         self.__dict__ = state
+#         self.c = lambda x: x * x
+#         # print(self.__dict__)
+#         # print(state)
+#
+#     def __str__(self):
+#         return f"{self.a} {self.b} {self.c(2)}"  # self.c(2) передаем в значение x lambda
+#
+#
+# item1 = Test2()
+# item2 = pickle.dumps(item1)
+# item3 = pickle.loads(item2)
+# # print(item3.__dict__)
+# print(item3)
+
+
+# ==========================
+
+# class TextReader:
+#     def __init__(self, filename):
+#         self.filename = filename
+#         self.file = open(filename, encoding='utf-8')
+#         self.count = 0
+#
+#     def red_line(self):
+#         self.count += 1
+#         line = self.file.readline()
+#         if not line:
+#             return None
+#         if line.endswith("\n"):  # endswith - если строка заканчивается - (указать)
+#             line = line[:-1]
+#         return f"{self.count}: {line}"
+#
+#     def __getstate__(self):
+#         state = self.__dict__.copy()
+#         del state['file']
+#         return state
+#
+#     def __setstate__(self, state):
+#         self.__dict__.update(state)  # update обновить данные
+#         file = open(self.filename, encoding='utf-8')
+#         for i in range(self.count):
+#             file.readline()
+#         self.file = file
+#
+#
+# reader = TextReader("hello.txt")
+# print(reader.red_line())
+# print(reader.red_line())
+#
+# new_reader = pickle.loads(pickle.dumps(reader))
+# print(new_reader.red_line())
+
+
+# =========================== JSON
+
+# import json
+
+# data = {
+#     "firstName": "Jane",
+#     "lastName": "Djo",
+#     "hobbies": ("running", "sky diving"),
+#     "age": 5,
+#     20: "one"
+# }
+#
+# # with open("data_file.json", 'w') as fw:
+# #     json.dump(data, fw)
+#
+# # with open("data_file.json", 'w') as fw:
+# #     json.dump(data, fw, indent=4)  # indent сдвигает на 4 таббуляции ( форматирование данных )
+# #
+# # with open("data_file.json", 'r') as fw:
+# #     print(json.load(fw))
+#
+# st = json.dumps(data)  # сохраняем в память
+# data = json.loads(st)
+# print(data)
+
+# ===================
+
+
+# x = {
+#     "name": "Виктор"
+# }
+# y = {
+#     "name": "Виктор"
+# }
+#
+# print(json.dumps(x))
+# print(json.dumps(y, ensure_ascii=False))  # ensure_ascii = правит кодировку
+
+
+# ===================
+
+# ================================================= ГЕНЕРАТОР СПИСКОВ =====
+
+# import json
+# from random import choice
+#
+#
+# def gen_persom():
+#     name = ''
+#     tel = ''
+#
+#     letters = ['a', "b", 'b', 'd', 'e', 'f', 'e', 'g']
+#     num = ['1', "2", '3', '4', '5', '6', '7', '8', '9', '0']
+#
+#     while len(name) != 7:
+#         name += choice(letters)  # choice = берет случайным индекс из списка
+#     # print(name)
+#
+#     while len(tel) != 7:
+#         tel += choice(num)  # choice = берет случайным индекс из списка
+#     # print(tel)
+#
+#     person = {
+#         'name': name,
+#         "tel": tel
+#     }
+#     return person
+#
+#
+# def write_json(person_dict):
+#     try:
+#         data = json.load(open('person.json'))  # если у нас нет файла то except,
+#         # data сохраняет данные, и добавляет новые при след запуске
+#     except FileNotFoundError:
+#         data = []
+#
+#     data.append(person_dict)  # в пустой список мы добавляем данные из gen_person
+#     with open('person.json', 'w') as f:  # открываем файл
+#         json.dump(data, f, indent=2)  # добавляем данные
+#
+#
+# # gen_persom()
+# # print(gen_persom())
+# # for i in range(5):
+# #     print(gen_persom())
+#
+# # persons = []
+#
+# # for i in range(5):  # группируем словари в список
+# #     persons.append(gen_persom())
+# # print(persons)
+#
+# # with open('person.json', 'w') as f:
+# #     json.dump(persons, f, indent=2)
+#
+# for i in range(5):
+#     write_json(gen_persom())
+
+

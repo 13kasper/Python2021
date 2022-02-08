@@ -2532,7 +2532,7 @@ import random as r
 #     ['irina@gmail.com', 'Irina'],
 #     ['anna@gmail.com', 'Anna']
 # ]
-
+#
 # user = (
 #     ('igor@gmail.com', 'Igor'),  # из кортежа, должны быть парные ( кортеж или список) в 1 упадет ключ и 2 значение
 #     ('irina@gmail.com', 'Irina'),
