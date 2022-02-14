@@ -1725,6 +1725,7 @@
 
 
 # DZ-05.01.21
+import json
 import math
 import re
 
@@ -4015,3 +4016,302 @@ import pickle
 #     write_json(gen_persom())
 
 
+# =============================================================== 08.02.22 =============================
+# Задача с студентами и оценками
+# import json
+#
+#
+# class Student:
+#     def __init__(self, name, marks):
+#         self.name = name
+#         self.marks = marks
+#
+#     def __str__(self):
+#         a = ''
+#         for i in self.marks:  # преобразуем список в строку ( числа + пробел с , )
+#             a += str(i) + ', '
+#         return f"Студент {self.name}: {a[:-2]}"
+#
+#     def add_mark(self, mark):  # добавляем оценки
+#         self.marks.append(mark)
+#
+#     def delete_mark(self, index):  # удаляем оценки
+#         self.marks.pop(index)
+#
+#     def edit_mark(self, index, new_mark):  # изменяем оценку
+#         self.marks[index] = new_mark
+#
+#     def average_mark(self):  # выводим среднее арифметическое
+#         return round(sum(self.marks) / len(self.marks), 2)
+#
+#     @classmethod  # записываем данные в словарь для записи в json файд
+#     def dump_to_json(cls, stud, filename):
+#         try:
+#             data = json.load(open(filename))
+#         except FileNotFoundError:
+#             data = []
+#
+#         data.append({'name': stud.name, 'marks': stud.marks})
+#         with open(filename, 'w') as f:
+#             json.dump(data, f, indent=2)
+#
+#     @classmethod  # метод загрузки json файла
+#     def load_from_file(cls, filename):
+#         with open(filename, 'r') as f:
+#             print(json.load(f))
+#
+#
+# class Group:
+#     def __init__(self, student, group):
+#         self.student = student
+#         self.group = group
+#
+#     def __str__(self):
+#         a = ''
+#         for i in self.student:
+#             a += str(i) + "\n"
+#         return f"Группа: {self.group}\n{a}"
+#
+#     def add_student(self, student):
+#         self.student.append(student)
+#
+#     def remove_student(self, index):
+#         return self.student.pop(index)
+#
+#     @classmethod
+#     def change_group(cls, group1, group2, index):  # удаляем студента из одной группы и переводим в другую.
+#         return group2.add_student(group1.remove_student(index))  # добавляем того студента что удалили
+#
+#     @classmethod
+#     def dump_group(cls, file, group):
+#         try:
+#             data = json.load(open(file))
+#         except FileNotFoundError:
+#             data = []
+#
+#         with open(file, 'w') as f:
+#             stud_list = []
+#             for i in group.student:
+#                 stud_list.append([i.name, i.marks])
+#             tmp = {'Student': stud_list}
+#             data.append(tmp['Student'])
+#             json.dump(data, f, indent=2)
+#
+#     @classmethod
+#     def upload_joinal(cls, file):
+#         with open(file, 'r') as f:
+#             print(json.load(f))
+#
+#
+# st1 = Student('Bodny', [5, 4, 3, 4, 5, 3])
+# st2 = Student('Nikolaenko', [2, 3, 5, 4, 2])
+# st3 = Student('Birukov', [3, 5, 3, 2, 5, 4])
+#
+# # Student.dump_to_json(st1, 'student.json')
+# Student.dump_to_json(st2, 'student.json')
+# Student.load_from_file('student.json')
+#
+# sts = [st1, st2]
+# my_group = Group(sts, 'ГК Python')
+# print(my_group)
+#
+# # Group.dump_group('group.json', my_group)  # Вызов записи группы
+#
+# my_group.add_student(st3)
+# print(my_group)
+# my_group.remove_student(1)
+# print(my_group)
+#
+# group22 = [st2]
+# my_group2 = Group(group22, "ГК Web")
+# Group.change_group(my_group, my_group2, 0)
+# print(my_group)
+# print(my_group2)
+# # Group.dump_group('group.json', my_group2)  # Вызов записи группы
+#
+# Group.upload_joinal('group.json')
+#
+# # # делалось первым
+# # print(st1)
+# # st1.add_mark(4)
+# # print(st1)
+# # st1.delete_mark(3)
+# # print(st1)
+# # st1.edit_mark(2, 15)
+# # print(st1)
+# # print(st1.average_mark())
+
+
+# ================================ Модуль Request =========================== ++++++
+# pip install requests
+# python -m pip install --upgrade pip  # обновить среду разработки
+
+import requests
+import json
+
+# response = requests.get('https://jsonplaceholder.typicode.com/todos')  # получили доступ
+# todos = json.loads(response.text)  # записали в переменную
+#
+# todos_by_user = {}
+#
+# for todo in todos:
+#     if todo['completed']:  # по свойству 'completed' делаем проверку на TRue и False
+#         try:
+#             todos_by_user[todo['userId']] += 1
+#         except KeyError:
+#             todos_by_user[todo['userId']] = 1
+#
+# print(todos_by_user)
+#
+# top_users = sorted(todos_by_user.items(), key=lambda x: x[1],
+#                    reverse=True)  # сортируем словари по значению и кладем в кортеж
+# print(top_users)
+#
+# max_complite = top_users[0][1]  # находим максимальный результат по индексам
+# print(max_complite)
+#
+# users = []
+# for user, num_complite in top_users:  # получаем id  с высокими оценками
+#     if num_complite < max_complite:
+#         break
+#     users.append(str(user))
+#
+# max_users = " and ".join(users)
+#
+# s = 's' if len(users) > 1 else ""
+#
+# print(f"user {max_users} completed {max_complite} TODOS")
+#
+#
+# def keep(todo):
+#     is_completed = todo['completed']
+#     has_max_count = str(todo["userId"]) in users
+#     return is_completed and has_max_count
+#
+#
+# with open('data.json', 'w') as f:
+#     td = list(filter(keep, todos))
+#     json.dump(td, f, indent=2)
+#
+# with open('data.json', 'r') as f:
+#     print(json.load(f))
+
+
+# ==================================================== CSV (comma separated values)
+# csv.reader # чтение
+# csv.writer # запись
+import csv
+
+# =============================================== reader
+
+# with open('data.csv') as f:
+#     reader = csv.reader(f, delimiter=';')
+#     count = 0
+#     for row in reader:
+#         if count == 0:
+#             print(f"Файл содержит столбцы: {', '.join(row)}")
+#         else:
+#             print(f"\t{row[0]} - {row[1]}. Родился в {row[2]} году.")
+#         count += 1
+#     print(f"Всего в файле {count} строки.")
+
+
+# ======================================================= DictReader
+
+# with open('data.csv') as f:
+#     field_name = ["Имя", "Профессия", "Год рождения"]
+#     reader = csv.DictReader(f, fieldnames=field_name)  # delimiter=';'
+#     count = 0
+#     for row in reader:
+#         if count == 0:
+#             print(f"Файл содержит столбцы: {', '.join(row)}")
+#         print(f"\t{row['Имя']} - {row['Профессия']}. ", end='')
+#         print(f"Родился в {row['Год рождения']} году. ")
+#         count += 1
+#     print(f"Всего в файле {count} строки.")
+
+
+# -====================================================== Записываем в файл CSV
+
+# with open("student.csv", mode='w') as f:
+#     writer = csv.writer(f, delimiter=",", lineterminator="\r")
+#     writer.writerow(["Имя", "Класс", "Возраст"])
+#     writer.writerow(["Женя", "9", "15"])
+#     writer.writerow(["Саша", "5", "12"])
+#     writer.writerow(["Маша", "11", "18"])
+
+# ============================= writer из списка
+
+# data = [['hostname', 'vendor', 'model', 'location'],
+#         ['sw1', 'Cisco', '3750', 'London, Best str'],
+#         ['sw2', 'Cisco', '3850', 'Liverpool, Better str'],
+#         ['sw3', 'Cisco', '3650', 'Liverpool, Better str'],
+#         ['sw4', 'Cisco', '3650', 'London, Best str']]
+#
+# with open("sw_data.csv", 'w') as f:
+#     writer = csv.writer(f, lineterminator="\r")
+#     for row in data:
+#         writer.writerow(row)
+#
+#
+# with open("sw_data.csv") as f:
+#     print(f.read())
+#
+# ============================ writer quoting=csv.QUOTE_NONNUMERIC
+
+# data = [['hostname', 'vendor', 'model', 'location'],
+#         ['sw1', 'Cisco', '3750', 'London, Best str'],
+#         ['sw2', 'Cisco', '3850', 'Liverpool, Better str'],
+#         ['sw3', 'Cisco', '3650', 'Liverpool, Better str'],
+#         ['sw4', 'Cisco', '3650', 'London, Best str']]
+#
+# with open("sw_data.csv", 'w') as f:
+#     writer = csv.writer(f, lineterminator="\r", quoting=csv.QUOTE_NONNUMERIC)
+#     for row in data:
+#         writer.writerow(row)
+#
+#
+# with open("sw_data.csv") as f:
+#     print(f.read())
+
+
+# ============================================== DictWriter
+
+# with open("student1.csv", mode='w') as f:
+#     names = ["Имя", "Возраст"]
+#     writer = csv.DictWriter(f, delimiter=";", lineterminator="\r", fieldnames=names)  # если не работает через "," - то delimiter=";"
+#     writer.writeheader()
+#     writer.writerow({"Имя": "Саша", "Возраст": "6"})
+#     writer.writerow({"Имя": "Маша", "Возраст": "15"})
+#     writer.writerow({"Имя": "Вова", "Возраст": "14"})
+
+
+# ==================================================
+
+data = [{
+    'hostname': 'sw1',
+    'location': 'London',
+    'model': '3750',
+    'vendor': 'Cisco'
+}, {
+    'hostname': 'sw2',
+    'location': 'Liverpool',
+    'model': '3850',
+    'vendor': 'Cisco'
+}, {
+    'hostname': 'sw3',
+    'location': 'Liverpool',
+    'model': '3650',
+    'vendor': 'Cisco'
+}, {
+    'hostname': 'sw4',
+    'location': 'London',
+    'model': '3650',
+    'vendor': 'Cisco'
+}]
+
+with open('dict.csv', 'w') as f:
+    writer = csv.DictWriter(f, delimiter=";", fieldnames=list(data[0].keys()))
+    writer.writeheader()
+    for d in data:
+        writer.writerow(d)
