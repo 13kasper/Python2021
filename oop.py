@@ -4315,3 +4315,168 @@ import csv
 #     writer.writeheader()
 #     for d in data:
 #         writer.writerow(d)
+
+
+# ================================================================== 15.02.2022 ===================
+# плагин pip install beautifulsoup4 или pip install bs4
+
+from bs4 import BeautifulSoup
+
+# f = open('index.html', encoding="utf-8").read()
+# soup = BeautifulSoup(f, "html.parser")  # позволяет извлекать данные из html
+
+# ПОИСК ДАННЫХ В HTML
+# row = soup.find("div", class_="name")  # ищем div с классом "name" (class_) с подчерком,
+# # find возвращает первый найденный элемент
+# row = soup.find_all("div", class_="name")  # find_all возвращает все найденные элементы
+# row = soup.find_all("div", class_="row")[1].find("div", class_="links")  # цепочка доступа к элементу
+# row = soup.find_all("div", {"data-set": "salary"})  # другой способ доступа ( для данных с дифисом типа data-set)
+# print(row)
+
+# alena = soup.find("div", text='Alena').parent  # поиск по тексту, .parent - выводит родительский элемент,
+# # .parent.parent (родитель родителя)
+# alena = soup.find("div", text='Alena').find_parent(class_="row")  # поиск конкретного родителя по имени класса
+# print(alena)
+
+# row = soup.find("div", id="whois3")
+# row = soup.find("div", id="whois3").find_next_sibling()  # найти следующий элемент от дизайнера
+# row = soup.find("div", id="whois3").find_previous_sibling()  # найти предыдущий элемент от дизайнера
+#
+# print(row)
+
+# ======================================================================================***
+
+# def get_copywriter(tag):
+#     whois = tag.find('div', class_="whois")
+#     if "Copywriter" in whois:
+#         return tag
+#     return None
+#
+# f = open('index.html', encoding="utf-8").read()
+# soup = BeautifulSoup(f, "html.parser")  # позволяет извлекать данные из html
+# copywriter = []
+# row = soup.find_all("div", class_="row")
+# for i in row:
+#     CW = get_copywriter(i)
+#     if CW:
+#         copywriter.append(CW)
+# print(row)
+
+# ===============================================================================*****
+
+
+# f = open('index.html', encoding="utf-8").read()
+# soup = BeautifulSoup(f, "html.parser")
+# row = soup.find("div", {"data-set": "salary"}).text  # получаем весь текст (только для первого найденого (find))
+# print(row)
+# row = soup.find_all("div", {"data-set": "salary"})  # для всех элементов получаем весь текст (find_all) через фор
+# for i in row:
+#     print(i.text)
+#
+# ===================
+# ==== Поиск всех чисел в данных элементах через рег. выражение
+
+# def get_salary(s):
+#     pattern = r"\d+"
+#     """1 вариант без скобок"""
+#     # res = re.findall(pattern, s)[0]  # через [0] индекс уходим от скобок списка
+#     """2 вариант без скобок"""
+#     res = re.search(pattern, s).group()
+#     print(res)
+#
+#
+# f = open('index.html', encoding="utf-8").read()
+# soup = BeautifulSoup(f, "html.parser")
+# row = soup.find_all("div", {"data-set": "salary"})
+# for i in row:
+#     get_salary(i.text)
+
+
+# ========================================================================
+
+# import requests
+#
+# r = requests.get('https://ru.wordpress.org/')
+# # print(r.status_code)  # возвращает код состояния(ответ тела сервера)
+# # print(r.headers)  # вывод заголовков сайта
+# # print(r.headers['content-type'])  # вывод конкретной инфы из header
+#
+# # print(r.content)
+# print(r.text)  # получаем html разметку
+
+
+import requests
+
+# # Получаем данные с сайта WordPress
+#
+# def get_html(url):
+#     r = requests.get(url)  # получаем доступ к данным
+#     return r.text
+#
+#
+# def get_data(html):
+#     # soup = BeautifulSoup(html, "html.parser")  # встроенный парсер питона "html.parser"
+#     soup = BeautifulSoup(html, "lxml")  # другой парсер
+#     p1 = soup.find("header", id="masthead").find("p", class_="site-title").text
+#     return p1
+#
+#
+# def main():
+#     url = 'https://ru.wordpress.org/'
+#     print(get_data(get_html(url)))
+#
+#
+# if __name__ == '__main__':
+#     main()
+
+
+# ========================================================
+
+# Получаем данные с сайта WordPress
+import csv
+
+
+def get_html(url):
+    r = requests.get(url)  # получаем доступ к данным
+    return r.text
+
+
+def refined(s):
+    """чистит от слов и лишних символов"""
+    res = re.sub(r"\s+", "", s)  # sub - метод поиска и замены ( \D все что угодно кроме цифр)
+    return res
+
+
+def write_csv(data):
+    with open('plugins.csv', 'a') as f:
+        writer = csv.writer(f, delimiter=";", lineterminator="\r")
+        writer.writerow((data['name'], data['url'], data['rating']))  # в виде кортежа
+
+
+def get_data(html):
+    soup = BeautifulSoup(html, "lxml")  # другой парсер
+    s = soup.findAll("section", class_="plugin-section")[1]
+    plugins = s.find_all('article')
+
+    for plugin in plugins:
+        name = plugin.find("h3").text  # получаем заголовки
+        url = plugin.find("h3").find("a").get("href")  # получаем ссылки, .get("href")-получить данные из атрибута href
+        rating = plugin.find("span", class_="rating-count").find("a").text  # получаем рейтинг
+        r = refined(rating)  # ФУНКЦИЯ
+
+        data = {'name': name, "url": url, "rating": r}
+        write_csv(data)
+        # print(url)
+        # print(name)
+        # print(r)
+        # print(data)
+    # return len(plugins)
+
+
+def main():
+    url = 'https://ru.wordpress.org/plugins/'
+    get_data(get_html(url))
+
+
+if __name__ == '__main__':
+    main()
