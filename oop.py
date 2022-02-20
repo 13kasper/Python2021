@@ -4320,7 +4320,7 @@ import csv
 # ================================================================== 15.02.2022 ===================
 # плагин pip install beautifulsoup4 или pip install bs4
 
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 
 # f = open('index.html', encoding="utf-8").read()
 # soup = BeautifulSoup(f, "html.parser")  # позволяет извлекать данные из html
@@ -4405,7 +4405,7 @@ from bs4 import BeautifulSoup
 # print(r.text)  # получаем html разметку
 
 
-import requests
+# import requests
 
 # # Получаем данные с сайта WordPress
 #
@@ -4433,49 +4433,165 @@ import requests
 # ========================================================
 
 # Получаем данные с сайта WordPress
+# import csv
+
+#
+# def get_html(url):
+#     r = requests.get(url)  # получаем доступ к данным
+#     return r.text
+#
+#
+# def refined(s):
+#     """чистит от слов и лишних символов"""
+#     res = re.sub(r"\s+", "", s)  # sub - метод поиска и замены ( \D все что угодно кроме цифр)
+#     return res
+#
+#
+# def write_csv(data):
+#     with open('plugins.csv', 'a') as f:
+#         writer = csv.writer(f, delimiter=";", lineterminator="\r")
+#         writer.writerow((data['name'], data['url'], data['rating']))  # в виде кортежа
+#
+#
+# def get_data(html):
+#     soup = BeautifulSoup(html, "lxml")  # другой парсер
+#     s = soup.findAll("section", class_="plugin-section")[1]
+#     plugins = s.find_all('article')
+#
+#     for plugin in plugins:
+#         name = plugin.find("h3").text  # получаем заголовки
+#         url = plugin.find("h3").find("a").get("href")  # получаем ссылки, .get("href")-получить данные из атрибута href
+#         rating = plugin.find("span", class_="rating-count").find("a").text  # получаем рейтинг
+#         r = refined(rating)  # ФУНКЦИЯ
+#
+#         data = {'name': name, "url": url, "rating": r}
+#         write_csv(data)
+#         # print(url)
+#         # print(name)
+#         # print(r)
+#         # print(data)
+#     # return len(plugins)
+#
+#
+# def main():
+#     url = 'https://ru.wordpress.org/plugins/'
+#     get_data(get_html(url))
+#
+#
+# if __name__ == '__main__':
+#     main()
+
+
+# ==============================
+
+
+# ============================= DZ-Stas
+
+# def get_html(url):
+#     r = requests.get(url)
+#     return r.text
+#
+#
+# # def write_csv(data):
+# #     with open('plugins111.csv', 'w', encoding='utf-8') as f:
+# #         writer = csv.writer(f, lineterminator='\r')
+# #         writer.writerow(data)  # ((data['name'], data['url'], data['rating']))
+#
+#
+# def get_data(html):
+#     soup = BeautifulSoup(html, "lxml")
+#     # p1 = soup.find("div class", id="col-md-6 col-lg-4 col-xl-3").find("div class", class_="categories-banner-name-div").text
+#     p1 = soup.find("div", class_="row no-gutters")
+#     for i in p1:
+#         print(i.text)
+#     print(p1)
+#
+#
+# def main():
+#     url = "https://www.4pc.by/"
+#     print(get_data(get_html(url)))
+#
+#
+# if __name__ == '__main__':
+#     main()
+
+# ========================================================== DZ-Stas
+
+
+# ============================================ ***************************************** 17.02.22
+
+import requests
 import csv
+from bs4 import BeautifulSoup
 
+# def get_html(url):
+#     r = requests.get(url)
+#     return r.text
+#
+#
+# def write_csv(data):
+#     with open("plugins1.csv", 'a', encoding='utf-8') as f:
+#         writer = csv.writer(f, delimiter=";", lineterminator="\r")
+#         writer.writerow((data['name'], data['url'], data['snippet'], data['active'], data['cy']))
+#
+#
+# def refind_cy(s):  # Возвращаем только числа с точками
+#     return s.split(" ")[-1]  # split() возварщает список сфомированный по пробелам, [-1] = возвращаем последний элемент
+#
+#
+# def get_page_data(html):
+#     soup = BeautifulSoup(html, 'lxml')
+#     element = soup.find_all("article", class_="plugin-card")
+#     for el in element:
+#         try:
+#             name = el.find("h3").text
+#         except ValueError:
+#             name = ""
+#         try:
+#             url = el.find("h3").find('a').get('href')
+#         except ValueError:
+#             url = ""
+#         try:
+#             snippet = el.find('div', class_="entry-excerpt").text.strip()  # .strip() Убирает пробелы
+#         except ValueError:
+#             snippet = ""
+#         try:
+#             active = el.find("span", class_="active-installs").text.strip()
+#         except ValueError:
+#             active = ""
+#         try:
+#             c = el.find('span', class_="tested-with").text.strip()
+#             cy = refind_cy(c)  # Возвращаем только числа с точками ( вызов функции )
+#         except ValueError:
+#             cy = ""
+#
+#         data = {
+#             'name': name,
+#             'url': url,
+#             'snippet': snippet,
+#             'active': active,
+#             'cy': cy
+#         }
+#         write_csv(data)
+#
+#
+# def main():
+#     for i in range(1, 22):
+#         url = f"https://ru.wordpress.org/plugins/browse/blocks/page/{i}/"  # запускаем 4 страницы
+#         get_page_data(get_html(url))
+#
+#
+# if __name__ == '__main__':
+#     main()
 
-def get_html(url):
-    r = requests.get(url)  # получаем доступ к данным
-    return r.text
+# ================================================================
 
-
-def refined(s):
-    """чистит от слов и лишних символов"""
-    res = re.sub(r"\s+", "", s)  # sub - метод поиска и замены ( \D все что угодно кроме цифр)
-    return res
-
-
-def write_csv(data):
-    with open('plugins.csv', 'a') as f:
-        writer = csv.writer(f, delimiter=";", lineterminator="\r")
-        writer.writerow((data['name'], data['url'], data['rating']))  # в виде кортежа
-
-
-def get_data(html):
-    soup = BeautifulSoup(html, "lxml")  # другой парсер
-    s = soup.findAll("section", class_="plugin-section")[1]
-    plugins = s.find_all('article')
-
-    for plugin in plugins:
-        name = plugin.find("h3").text  # получаем заголовки
-        url = plugin.find("h3").find("a").get("href")  # получаем ссылки, .get("href")-получить данные из атрибута href
-        rating = plugin.find("span", class_="rating-count").find("a").text  # получаем рейтинг
-        r = refined(rating)  # ФУНКЦИЯ
-
-        data = {'name': name, "url": url, "rating": r}
-        write_csv(data)
-        # print(url)
-        # print(name)
-        # print(r)
-        # print(data)
-    # return len(plugins)
+from parse import Parser
 
 
 def main():
-    url = 'https://ru.wordpress.org/plugins/'
-    get_data(get_html(url))
+    pars = Parser('https://www.ixbt.com/live/index/type/news/', 'new.txt')
+    pars.run()
 
 
 if __name__ == '__main__':
