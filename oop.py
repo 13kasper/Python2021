@@ -3166,6 +3166,7 @@ import math
 # ===============================
 import math
 
+
 # class Point:
 #     __slots__ = ('x', 'y', '__length')  # прописываем какие переменные разрешены
 #
@@ -3413,27 +3414,27 @@ import math
 
 # ==================================================== Наружные декораторы ======
 
-# def dec(fn):
-#     def wrap(*args, **kwargs):
-#         print("*" * 20)
-#         fn(*args, **kwargs)
-#         print("*" * 20)
-#
-#     return wrap
-#
-#
-# class Person:
-#     def __init__(self, name, surname):
-#         self.name = name
-#         self.surname = surname
-#
-#     @dec
-#     def info(self):
-#         print(f"{self.name} {self.surname}")
-#
-#
-# p1 = Person("Виталий", "Карасев")
-# p1.info()
+def dec(fn):
+    def wrap(*args, **kwargs):
+        print("*" * 20)
+        fn(*args, **kwargs)
+        print("*" * 20)
+
+    return wrap
+
+
+class Person:
+    def __init__(self, name, surname):
+        self.name = name
+        self.surname = surname
+
+    @dec
+    def info(self):
+        print(f"{self.name} {self.surname}")
+
+
+p1 = Person("Виталий", "Карасев")
+p1.info()
 
 # ========
 
@@ -4586,13 +4587,15 @@ from bs4 import BeautifulSoup
 
 # ================================================================
 
-from parse import Parser
+# from parse import Parser
+#
+#
+# def main():
+#     pars = Parser('https://www.ixbt.com/live/index/type/news/', 'new.txt')
+#     pars.run()
+#
+#
+# if __name__ == '__main__':
+#     main()
 
 
-def main():
-    pars = Parser('https://www.ixbt.com/live/index/type/news/', 'new.txt')
-    pars.run()
-
-
-if __name__ == '__main__':
-    main()
