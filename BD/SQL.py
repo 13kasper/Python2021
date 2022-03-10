@@ -99,10 +99,35 @@ import sqlite3 as sq
 
 # ==================================================================================
 
-with sq.connect("users.db") as con:
+# with sq.connect("users.db") as con:
+#     cur = con.cursor()
+#     cur.execute("""
+#     INSERT INTO user
+#     VALUEs (10, 'Ольга', '79991112233', 25, 'test@mail.ru')
+#
+#     """)
+
+
+# ==================================================================================== 08.03.22
+
+with sq.connect("db_4.db") as con:
     cur = con.cursor()
     cur.execute("""
-    INSERT INTO user
-    VALUEs (10, 'Ольга', '79991112233', 25, 'test@mail.ru')
-
+    SELECT *
+    FROM Ware
+    ORDER BY Price DESC
+    LIMIT 2, 5;
     """)
+
+    # ====================================== ВЫВОДИМ инфу с БД
+
+    # res = cur.fetchall()  # выводит все данные из базы данных ( в кортеже )
+    # print(res)
+
+    # for res in cur:
+    #     print(res)
+
+    res = cur.fetchone()  # Выводит первый элемент
+    print(res)
+    res2 = cur.fetchmany(3)  # выводим нужно количество записей
+    print(res2)
