@@ -99,7 +99,6 @@ from jinja2 import Template
 
 
 # ===================================================== Задача ======> СДЕЛАТЬ
-
 # menu = [
 #     {'href': '/index', 'link': 'Главная'},
 #     {'href': '/news', 'link': 'Новости'},
@@ -108,8 +107,15 @@ from jinja2 import Template
 #     {'href': '/contact', 'link': 'Контакты'},
 # ]
 #
-# link = """
-#
+# link = """<ul>
+# {% for i in menu -%}
+# {% if i.link == 'Главная' -%}
+# <li><a href="{{ i['href'] }}"class='active'>{{i['link']}}</a></li>
+# {% else -%}
+# <li><a href="{{ i['href'] }}">{{i['link']}}</a></li>
+# {% endif -%}
+# {% endfor -%}
+# </ul>
 # """
 #
 # tm = Template(link)
@@ -119,22 +125,22 @@ from jinja2 import Template
 
 # ===================================
 
-cars = [
-    {'model': 'Audi', 'price': 23000},
-    {'model': 'Skoda', 'price': 17000},
-    {'model': 'Renault', 'price': 44000},
-    {'model': 'WV', 'price': 21000},
-]
-
-# tpl = "Суммарная цена автомобилей {{ cs | sum(attribute='price') }}"  # sum - выводим сумму всех авто по аттрибуту
-# tpl = "Суммарная цена автомобилей {{ cs | max(attribute='price') }}"  # max - выводим словарь с максимальной ценой
-# tpl = "Суммарная цена автомобилей {{( cs | max(attribute='price')).model }}"  # выводим саму модель машины ( в скобка)
-# tpl = "Суммарная цена автомобилей {{cs | random }}"  # выводим рандомную модель
-tpl = "Суммарная цена автомобилей {{cs | replace('model', 'brand') }}"  # заменяем ключи model на brand
-
-tm = Template(tpl)
-msg = tm.render(cs=cars)
-print(msg)
+# cars = [
+#     {'model': 'Audi', 'price': 23000},
+#     {'model': 'Skoda', 'price': 17000},
+#     {'model': 'Renault', 'price': 44000},
+#     {'model': 'WV', 'price': 21000},
+# ]
+#
+# # tpl = "Суммарная цена автомобилей {{ cs | sum(attribute='price') }}"  # sum - выводим сумму всех авто по аттрибуту
+# # tpl = "Суммарная цена автомобилей {{ cs | max(attribute='price') }}"  # max - выводим словарь с максимальной ценой
+# # tpl = "Суммарная цена автомобилей {{( cs | max(attribute='price')).model }}"  # выводим саму модель машины ( в скобка)
+# # tpl = "Суммарная цена автомобилей {{cs | random }}"  # выводим рандомную модель
+# tpl = "Суммарная цена автомобилей {{cs | replace('model', 'brand') }}"  # заменяем ключи model на brand
+#
+# tm = Template(tpl)
+# msg = tm.render(cs=cars)
+# print(msg)
 
 # ========================
 
